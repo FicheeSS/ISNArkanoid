@@ -27,7 +27,7 @@ def main():
 
 
 
-
+#bite
 
 def dessineCarre(pos , couleur):
     pygame.draw.rect(screen,couleur,(pos[0],pos[1],widthCase,heightCase))
