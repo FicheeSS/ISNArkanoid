@@ -50,11 +50,11 @@ def init ():
     pygame.display.flip()
     x = 0
     y = 0
-    while y < 15:
+    while y < cellulesy:
         x = 0
-        while x < 20 :
-            print(getPosFromTab([x,y]))
-            dessineCarre(getPosFromTab([x,y]),jaune,screen)
+        while x < cellulesx :
+            #print(getPosFromTab([x,y]))
+            dessineCarre(getPosFromTab((x,y)),couleur_case(y,x),screen)
             x += 1
         y += 1 
     dessinetranpoline(screen)

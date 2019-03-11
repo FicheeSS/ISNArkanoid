@@ -16,5 +16,5 @@ def getPosFromTab(tab):
     tab : positon dans le tableau
     return : la position 
     """
-    pos = (tab[0]*20+2,tab[1]*15+2)
+    pos = (tab[0]*cellulesx+2,tab[1]*cellulesy+2)
     return pos
