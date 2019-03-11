@@ -1,6 +1,6 @@
 posBouleStartup = (50,50)
 bouleRaduis = 15
-widthCase = 25
+widthCase = 20
 heightCase = 15
-posPalletStartup = (posBouleStartup[0]-bouleRaduis,posBouleStartup[1]-bouleRaduis)
-screenSize = (40*15,40*25)
+posPalletStartup = (((26*heightCase)+12)/2,(30*widthCase)-heightCase)
+screenSize = ((26*heightCase)+12,30*widthCase)
