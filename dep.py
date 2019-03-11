@@ -23,10 +23,11 @@ BRIQUE = 1
 COULEUR_BRIQUE = darkorange
 COULEUR_VIDE = noir
 COULEUR_BALLE = blanc"""
-
+"""
 RAYON = 5
 NB_LIGNE = 6 # nombre de lignes de briques
 N = NB_LIGNE*(L-2) # nombre de briques
+"""
 
 # Variables globales
 jeu = []
