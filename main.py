@@ -6,8 +6,9 @@ from tools import *
 from levels import *
 from couleur import *
 from globalvar import *
+from palette import * 
 #global var
-currentBoulePos = posBouleStartup
+palette = Palette()
 level = 1
 def main():
     #le programme princpal se fait apres le init 
@@ -20,7 +21,7 @@ def couleur_case (x,y):
     """
     n = niveau1[x][y] 
     if n == 0:
-        return noir  
+        return jaune  
     if n == 1:
         return jaune
     if n == 2:
@@ -38,8 +39,6 @@ def couleur_case (x,y):
     if n == 8:
         return vertclair
         
-def dessinetranpoline (screen):
-    pygame.draw.rect(screen,blanc,(posPalletStartup[0],posPalletStartup[1],widthCase+10,heightCase-2))
 
 
 def init ():
@@ -57,9 +56,11 @@ def init ():
             dessineCarre(getPosFromTab((x,y)),couleur_case(y,x),screen)
             x += 1
         y += 1 
-    dessinetranpoline(screen)
+    palette.dessine(screen)
+    palette
     pygame.display.flip()
     
 
 init ()
 
+pygame.time.wait(1000)

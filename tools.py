@@ -8,7 +8,7 @@ def dessineCarre(pos , couleur,screen):
     couleur : la couleur 
     
     """
-    pygame.draw.rect(screen,couleur,(pos[0],pos[1],widthCase-2,heightCase-2))
+    pygame.draw.rect(screen,couleur,(pos[0],pos[1],widthCase,heightCase))
 
 def getPosFromTab(tab):
     """
@@ -16,5 +16,5 @@ def getPosFromTab(tab):
     tab : positon dans le tableau
     return : la position 
     """
-    pos = (tab[0]*cellulesx+2,tab[1]*cellulesy+2)
+    pos = ((tab[0]*widthCase)+ecartcase*(tab[0]+1),(tab[1]*heightCase)+ecartcase*(tab[1]+1))
     return pos
