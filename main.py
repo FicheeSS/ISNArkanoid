@@ -22,21 +22,21 @@ def couleur_case (x,y):
     if n == 0:
         return noir  
     if n == 1:
-        return noir
+        return jaune
     if n == 2:
-        return noir
+        return orangerouge
     if n == 3:
-        return noir
+        return rouge
     if n == 4:
-        return noir
+        return magenta
     if n == 5:
-        return noir
+        return violet
     if n == 6:
-        return noir
+        return bleu
     if n == 7:
-        return noir
+        return cyan
     if n == 8:
-        return noir
+        return vertclair
         
 def dessinetranpoline (screen):
     pygame.draw.rect(screen,blanc,(posPalletStartup[0],posPalletStartup[1],widthCase+10,heightCase-2))
