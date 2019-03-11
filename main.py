@@ -14,7 +14,30 @@ def main():
     print("oui")
 
 
-
+def couleur_case (x,y):
+    """    
+    renvoie la couleur de la case lorsqu'on envoie la position d'une case
+    """
+    n = niveau1[x][y] 
+    if n == 0:
+        return noir  
+    if n == 1:
+        return noir
+    if n == 2:
+        return noir
+    if n == 3:
+        return noir
+    if n == 4:
+        return noir
+    if n == 5:
+        return noir
+    if n == 6:
+        return noir
+    if n == 7:
+        return noir
+    if n == 8:
+        return noir
+        
 def dessinetranpoline (screen):
     pygame.draw.rect(screen,blanc,(posPalletStartup[0],posPalletStartup[1],widthCase+10,heightCase-2))
 
