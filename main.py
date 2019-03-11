@@ -37,6 +37,27 @@ def init ():
 
 init ()
 
+def couleur_case (x,y):
+    #renvoie la couleur de la case lorsqu'on envoie la position d'une case
+    n = niveau1[x][y] 
+    if n == 0:
+        print (noir)  
+    if n == 1:
+        print (jaune)
+    if n == 2:
+        print (orange)
+    if n == 3:
+        print (rouge)
+    if n == 4:
+        print (magenta)
+    if n == 5:
+        print (violet)
+    if n == 6:
+        print (bleu)
+    if n == 7:
+        print (cyan)
+    if n == 8:
+        print (vert)
 # boucle pour faire une pause en attente de l'appui sur la touche echap
 encore = 1
 while encore == 1:
