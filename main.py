@@ -1,14 +1,11 @@
 '''
 Author : Théo Bocquet
 '''
-import pygame 
+import pygame
 from tools import *
 from levels import *
 from couleur import *
 from globalvar import *
-
-
-
 #global var
 currentBoulePos = posBouleStartup
 level = 1
@@ -31,8 +28,11 @@ def init ():
     y = 0
     while y < 15:
         while x < 20 :
-            dessineCarre(getPosFromTab(niveau1[x][y]))
-            x += 1
-        y+= 1 
+            print((x,y))
+            dessineCarre(getPosFromTab([x,y]),jaune,screen)
+            x =+ 1
+        y =+ 1 
 
 init ()
+
+pygame.quit()

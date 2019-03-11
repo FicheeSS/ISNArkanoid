@@ -1,6 +1,7 @@
 from globalvar import *
+import pygame 
 
-def dessineCarre(pos , couleur):
+def dessineCarre(pos , couleur,screen):
     """
     dessine un carré 
     pos : tuple(x,y) la position du carré
