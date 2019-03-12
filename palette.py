@@ -9,4 +9,6 @@ class Palette:
         self.y = screenSize[1]- self.width - 2 
     def dessine(screen):
         pygame.draw.rect(screen,blanc,(self.x,self.y,self.width,self.height))
+    def getX():
+        return self.x
 

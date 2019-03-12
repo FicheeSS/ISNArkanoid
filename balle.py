@@ -1,5 +1,5 @@
 from globalvar import *
-from palette
+from palette import *
 import pygame
 class Balle:
     def __init__(self):
@@ -8,4 +8,8 @@ class Balle:
         self.y = screenSize[1] - 50
     def dessine (screen):
         pygame.draw.circle(screen, blanc , (self.x,self.y),self.raduis)
-        
+    def getX():
+        return self.x
+    def getY():
+        return self.y
+    
