@@ -2,7 +2,7 @@ widthCase = 20
 heightCase = 15
 ecartcase = 2
 
-cellulesx = 20
-cellulesy = 15
+nbBriqueX = 20
+nbBriqueY = 15
 
-screenSize = ((cellulesx*widthCase)+((cellulesx+1)*ecartcase),((cellulesy*heightCase)+((cellulesy+1)*ecartcase))*3)
+screenSize = ((nbBriqueX*widthCase)+((nbBriqueX+1)*ecartcase),((nbBriqueY*heightCase)+((nbBriqueY+1)*ecartcase))*3)
