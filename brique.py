@@ -2,14 +2,14 @@ import pygame
 from couleur import *
 from globalvar import *
 class Brique :
-    def __init__(self):
-        self.x = 0
-        self.y = 0
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
         self.state = 1
         
     def dessine(self , screen):
-        #print("x = " , self.x , " , y =" , self.y)
         pygame.draw.rect(screen,self.stateToColor(),(self.x,self.y,widthCase,heightCase))
+
 
     def stateToColor(self):
         n = self.state 
