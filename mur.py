@@ -13,3 +13,5 @@ class Mur:
         return self.extremites[0]
     def get_extremite2(self):
         return self.extremites[1]
+    def get_type(self):
+        return self.type
