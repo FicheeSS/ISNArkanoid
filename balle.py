@@ -46,6 +46,7 @@ class Balle:
             if len(liste_points) !=0 :
                 if(acteur.getType() != MURDROITE):
                     rebondir()
+                    return 0
                 else :
                     return -1
 
