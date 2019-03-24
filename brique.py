@@ -31,4 +31,8 @@ class Brique :
             return cyan
         if n == 8:
             return vertclair
-            
+
+    def get_x(self):
+        return self.x
+    def get_y(self):
+        return self.y
