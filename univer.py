@@ -4,6 +4,7 @@ import pygame
 from globalvar import *
 from brique import *
 from collision import *
+from mur import *
 
 class Univers:
     def __init__(self):
@@ -11,6 +12,10 @@ class Univers:
         self.palette = Palette()
         self.balle = Balle()
         self.briques = []
+        self.murdroit = Mur(((0,screenSize(1)),(screenSize(0),screenSize(1))),MURDROIT)
+        self.murgauche = Mur( ((0,0),(0,screenSize(0))),MURGAUCHE)
+        self.murhaut = Mur(((0,0),(0,screenSize(1))),MURHAUT)
+        self.murbas = Mur(((screenSize(0),0),(screenSize(0),screenSize(1))),MURBAS)
         for i in range(nbBriqueX):
             self.briques.append([0]*nbBriqueX)
         for x in range(nbBriqueX) :
@@ -19,11 +24,6 @@ class Univers:
                 sy = (y*heightCase)+ecartcase*(y+1)
                 brique = Brique(sx, sy)
                 self.briques[x][y] = brique
-        self.murgauche = ((0,0),(screenSize(0)))
-        self.murdroite = ((0,screenSize(1)),(screenSize(0),screenSize(1)))
-        self.murhaut = ((0,0),(0,screenSize(1))) 
-        self.murbas = ((screenSize(0),0),(screenSize(0),screenSize(1)))
-        #self.affichTableaux()
 
     def init(self):
         # Création et affichage de la fenêtre graphique
@@ -32,25 +32,15 @@ class Univers:
     def animate(self):
         #on verifie que la balle est en colision avec un des blocs
         for x in range(nbBriqueX) :
-            for y in range(nbBriqueY) : 
-                if len(self.balle.get_colision(self.briques[x][y])) != 0  :
-                    #la balle est en colision avec le bloc
-                    self.briques[x][y] = 0
+            for y in range(nbBriqueY) :
+                self.balle.get_colision(self.briques[x][y])
         #on verifie que la balle est en colison avec un des murs
-        """
-        if self.balle.get_colision(self.murgauche(0),self.murgauche(1)) == true :
-            #fonction de rebond 
-            print("rebond mur gauche ")
-        if self.balle.get_colision(self.murdroite(0),self.murdroite(1)) == true :
-            #fonction de rebond 
-            print("rebond mur droite ")
-        if self.balle.get_colision(self.murhaut(0),self.murhaut(1)) == true :
-            #fonction de rebond 
-            print("rebond mur haut ")
-        if self.balle.get_colision(self.murbas(0),self.murbas(1)) == true :
-            #fonction de fin de jeu 
-            print("rebond mur bas ") 
-        """
+        self.balle.get_colision(murdroit)
+        self.balle.get_colision(murgauche)
+        if (self.balle.get_colision(murbas) == -1):
+            print("on arrete tous")
+            return false
+        self.balle.get_colision(murhaut)
         self.screen.fill(noir)
         self.balle.animate()
         self.palette.animate()
@@ -58,6 +48,7 @@ class Univers:
         self.palette.dessine(self.screen)
         self.dessineBriques()
         pygame.display.flip()
+        return true
 
     def affichTableaux(self):
         for x in range(nbBriqueX) :

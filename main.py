@@ -12,7 +12,9 @@ def main():
     univers.init()
    
     for t in range (2000):
-         univers.animate()
+        encore = univers.animate()
+        if encore == false :
+            t = 2000
 
 main()
 

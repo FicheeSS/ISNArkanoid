@@ -6,9 +6,11 @@ class Brique :
         self.x = x
         self.y = y
         self.state = 1
+        self.visible = true
         
     def dessine(self , screen):
-        pygame.draw.rect(screen,self.stateToColor(),(self.x,self.y,widthCase,heightCase))
+        if self.visible == true :
+            pygame.draw.rect(screen,self.stateToColor(),(self.x,self.y,widthCase,heightCase))
 
 
     def stateToColor(self):
@@ -36,3 +38,5 @@ class Brique :
         return self.x
     def get_y(self):
         return self.y
+    def explose (self):
+        self.visible = false
