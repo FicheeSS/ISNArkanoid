@@ -4,6 +4,7 @@ import pygame
 import math
 from collision import *
 from mur import *
+#réglage des paramètres de balle : vitesse, rebond
 class Balle:
     def __init__(self):
         self.radius = 15
@@ -12,7 +13,8 @@ class Balle:
         self.angle = (300 * math.pi) / 180
         self.vitesse = 0.5
         self.palette = Palette()
-
+        
+# matérialistion de la balle         
     def dessine (self , screen):
         pygame.draw.circle(screen, blanc , (int(self.x),int(self.y)),self.radius)
     def calculnextpos(self):
@@ -21,13 +23,15 @@ class Balle:
         Psuiv[0] = Psuiv[0] + 1
         Psuiv[1] = int(currentpos[1] + math.tan((theta*math.pi)/180)*(Psuiv[0]-currentpos[0]))
         return Psuiv
-
+        
+# animation de la balle
     def animate(self):
         dx = math.sin(self.angle) * self.vitesse
         dy = -math.cos(self.angle) * self.vitesse
         self.x += dx
         self.y += dy
-
+        
+# on calcul l'angle de rebond lors d'une collision de la balle avec un mur
     def rebondir(self,impact,ext1,ext2):
         print (self.angle)
         self.angle = int((3.14/ 2) - self.angle)
@@ -38,7 +42,7 @@ class Balle:
             self.angle = self.angle - (math.pi) * 2 
     
     
-
+#on chercher a detecter la collision
     def get_colision(self,acteur):
         if (acteur.__class__.__name__ == "Brique") :
             p1 = (acteur.get_x(),acteur.get_y()+heightCase)
@@ -56,6 +60,7 @@ class Balle:
                     return 0
                 else :
                     return -1
+                    
 
 
 
