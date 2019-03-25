@@ -12,6 +12,7 @@ class Balle:
         self.angle = (300 * math.pi) / 180
         self.vitesse = 0.5
         self.palette = Palette()
+        self.murs = Mur()
 
     def dessine (self , screen):
         pygame.draw.circle(screen, blanc , (int(self.x),int(self.y)),self.radius)
@@ -29,7 +30,8 @@ class Balle:
         self.y += dy
 
     def rebondir(self,impact,ext1,ext2):
-        print ("rebond")
+        self.angle = (((math.pi)/2-self.angle)*2+math.pi)
+        
 
     def get_colision(self,acteur):
         if (acteur.__class__.__name__ == "Brique") :
@@ -38,7 +40,7 @@ class Balle:
             liste_points = DetectColisionCercleDroite(p1,p2,(self.x,self.y),self.radius)
             if len(liste_points) != 0:
                 acteur.explose()
-                self.rebondir(liste_points[0],p1,p2)
+                rebondir(liste_points[0],p1,p2)
 
         if (acteur.__class__.__name__ == "Mur") :
             liste_points = DetectColisionCercleDroite(acteur.get_extremite1(),acteur.get_extremite2(),(self.x,self.y),self.radius)
