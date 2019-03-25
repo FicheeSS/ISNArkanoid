@@ -12,10 +12,10 @@ class Univers:
         self.palette = Palette()
         self.balle = Balle()
         self.briques = []
-        self.murdroit = Mur(((0,screenSize(1)),(screenSize(0),screenSize(1))),MURDROIT)
-        self.murgauche = Mur( ((0,0),(0,screenSize(0))),MURGAUCHE)
-        self.murhaut = Mur(((0,0),(0,screenSize(1))),MURHAUT)
-        self.murbas = Mur(((screenSize(0),0),(screenSize(0),screenSize(1))),MURBAS)
+        self.murdroit = Mur(((0,screenSize[1]),(screenSize[0],screenSize[1])),MURDROITE)
+        self.murgauche = Mur(((0,0),(0,screenSize[0])),MURGAUCHE)
+        self.murhaut = Mur(((0,0),(0,screenSize[1])),MURHAUT)
+        self.murbas = Mur(((screenSize[0],0),(screenSize[0],screenSize[1])),MURBAS)
         for i in range(nbBriqueX):
             self.briques.append([0]*nbBriqueX)
         for x in range(nbBriqueX) :
@@ -30,17 +30,19 @@ class Univers:
         self.screen = pygame.display.set_mode(screenSize)
  
     def animate(self):
+        
         #on verifie que la balle est en colision avec un des blocs
         for x in range(nbBriqueX) :
             for y in range(nbBriqueY) :
                 self.balle.get_colision(self.briques[x][y])
         #on verifie que la balle est en colison avec un des murs
-        self.balle.get_colision(murdroit)
-        self.balle.get_colision(murgauche)
-        if (self.balle.get_colision(murbas) == -1):
+        self.balle.get_colision(MURDROITE)
+        self.balle.get_colision(MURGAUCHE)
+        if (self.balle.get_colision(MURBAS) == -1):
             print("on arrete tous")
-            return false
-        self.balle.get_colision(murhaut)
+            return False
+        self.balle.get_colision(MURHAUT)
+        
         self.screen.fill(noir)
         self.balle.animate()
         self.palette.animate()
@@ -48,7 +50,7 @@ class Univers:
         self.palette.dessine(self.screen)
         self.dessineBriques()
         pygame.display.flip()
-        return true
+        return True
 
     def affichTableaux(self):
         for x in range(nbBriqueX) :

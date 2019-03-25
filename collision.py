@@ -13,6 +13,6 @@ def DetectColisionCercleDroite (p1,p2,c,ray):
         return []
     else:
         #il a point d'intersection
-        return [1,1]
+        return [(p1,-B-math.sqrt(B*B-4*A*C)/2*A),(p2,-B+math.sqrt(B*B-4*A*C)/2*A)]
 
 

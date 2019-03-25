@@ -1,5 +1,5 @@
-widthCase = 20
-heightCase = 15
+widthCase = 15
+heightCase = 10
 ecartcase = 2
 
 nbBriqueX = 20
