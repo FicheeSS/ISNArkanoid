@@ -1,16 +1,16 @@
-from balle import *
-from palette import *
+from acteur import *
 import pygame
 from globalvar import *
-from brique import *
 from collision import *
-from mur import *
-
+from levels import *
 class Univers:
     def __init__(self):
+        #self.print_niveau()
         print("univers")
         self.palette = Palette()
-        self.balle = Balle()
+        self.balle = []
+        for i in range(10):
+            self.balle.append(Balle(((int(screenSize[0]/2 - RADIUS)),int((screenSize[1] - 50)))))
         self.briques = []
         self.murdroit = Mur(((0,screenSize[1]),(screenSize[0],screenSize[1])),MURDROITE)
         self.murgauche = Mur(((0,0),(0,screenSize[0])),MURGAUCHE)
@@ -22,7 +22,8 @@ class Univers:
             for y in range(nbBriqueY) :
                 sx = (x*widthCase)+ecartcase*(x+1)
                 sy = (y*heightCase)+ecartcase*(y+1)
-                brique = Brique(sx, sy)
+                state = niveau1[y][x]
+                brique = Brique(sx, sy,state)
                 self.briques[x][y] = brique
 
     def init(self):
@@ -31,36 +32,46 @@ class Univers:
  
     def animate(self):
         
-        #on verifie que la balle est en colision avec un des blocs
-        for x in range(nbBriqueX) :
-            for y in range(nbBriqueY) :
-                self.balle.get_colision(self.briques[x][y])
-        #on verifie que la balle est en colison avec un des murs
-        self.balle.get_colision(MURDROITE)
-        self.balle.get_colision(MURGAUCHE)
-        if (self.balle.get_colision(MURBAS) == -1):
-            print("on arrete tous")
-            return False
-        self.balle.get_colision(MURHAUT)
-        
+    
+        for i in range(len(self.balle)):
+            self.balle[i].get_colision(self.murhaut)
+                #on verifie que la balle est en colision avec un des blocs
+            for x in range(nbBriqueX) :
+                for y in range(nbBriqueY) :
+                    self.balle[i].get_colision(self.briques[x][y])
+            #on verifie que la balle est en colison avec un des murs
+            self.balle[i].get_colision(self.murdroit)
+            self.balle[i].get_colision(self.murgauche)
+            if (self.balle[i].get_colision(self.murbas) == -1):
+                print("on arrete tous")
+                return False
         self.screen.fill(noir)
-        self.balle.animate()
+
         self.palette.animate()
-        self.balle.dessine(self.screen)
         self.palette.dessine(self.screen)
         self.dessineBriques()
+        for i in range(len(self.balle)):
+            self.balle[i].animate()
+            self.balle[i].dessine(self.screen)        
         pygame.display.flip()
         return True
 
-    def affichTableaux(self):
-        for x in range(nbBriqueX) :
-            for y in range(nbBriqueY) : 
-                print (" ",self.briques[x][y].x ," ", self.briques[x][y].y)
-
+    def get_brique_tab(self):
+        return self.brique
     def dessineBriques(self):
         #self.affichTableaux() 
         for x in range(nbBriqueX) :
             for y in range(nbBriqueY) :
                 self.briques[x][y].dessine(self.screen) 
 
- 
+    def print_niveau(self):
+        for i in range(nbBriqueX):
+            print("x = " + str(i))
+            for j in range(nbBriqueY):
+                print("y = " + str(j))
+                print(niveau1[j][i])
+    
+    def add_balle(self,pos):
+        self.balle.append(Balle(pos))
+    def add_speed(self):
+        balle[0].add_speed()

@@ -1,4 +1,6 @@
 import math 
+from globalvar import *
+from univer import *
 def DetectColisionCercleDroite (p1,p2,c,ray):
     """
     p1 : point de droite 
@@ -20,7 +22,8 @@ def DetectColisionCercleDroite (p1,p2,c,ray):
     else:
         #il a point d'intersection
         if appartenance(p1,p2,[((-B-math.sqrt(B*B-4*A*C)/2*A),A*(-B-math.sqrt(B*B-4*A*C)/2*A)+B),((-B+math.sqrt(B*B-4*A*C)/2*A),A*(-B+math.sqrt(B*B-4*A*C)/2*A)+B)]) == True :    
-            return [((-B-math.sqrt(B*B-4*A*C)/2*A),A*(-B-math.sqrt(B*B-4*A*C)/2*A)+B),((-B+math.sqrt(B*B-4*A*C)/2*A),A*(-B+math.sqrt(B*B-4*A*C)/2*A)+B)]
+            return []            
+            #return [((-B-math.sqrt(B*B-4*A*C)/2*A),A*(-B-math.sqrt(B*B-4*A*C)/2*A)+B),((-B+math.sqrt(B*B-4*A*C)/2*A),A*(-B+math.sqrt(B*B-4*A*C)/2*A)+B)]
         else :
             return []
 
@@ -32,5 +35,16 @@ def appartenance(p1,p2,intersec):
         return True
     else :
         return False
+
+def rebond_mur(pos,radius):
+    if pos[0]-radius <= 0 :
+        return MURGAUCHE
+    elif pos[0]+radius >= screenSize[0]:
+        return MURDROITE
+    elif pos[1]+radius >= screenSize[1]:
+        return MURBAS
+    elif pos[1]-radius <= 0:
+        return MURHAUT 
+    
     
 
