@@ -18,21 +18,19 @@ class Brique :
         if n == 0:
             return noir
         if n == 1:
-            return jaune
+            return green
         if n == 2:
-            return orangerouge
+            return mediumsgreen
         if n == 3:
-            return rouge
+            return darkseagreen
         if n == 4:
-            return magenta
+            return indigo
         if n == 5:
-            return violet
+            return rouge
         if n == 6:
-            return bleu
-        if n == 7:
             return cyan
-        if n == 8:
-            return vertclair
+        if n == 7:
+            return mediumvioletred
 
     def get_x(self):
         return self.x
