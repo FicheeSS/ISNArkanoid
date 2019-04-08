@@ -85,7 +85,7 @@ class Brique :
         if n == 0:
             return noir
         if n == 1:
-            return green
+            return mediumseagreen
         if n == 2:
             return mediumsgreen
         if n == 3:
