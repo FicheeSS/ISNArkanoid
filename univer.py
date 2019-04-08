@@ -8,7 +8,9 @@ class Univers:
         #self.print_niveau()
         print("univers")
         self.palette = Palette()
-        self.balle = Balle()
+        self.balle = []
+        for i in range(10):
+            self.balle.append(Balle(((int(screenSize[0]/2 - RADIUS)),int((screenSize[1] - 50)))))
         self.briques = []
         self.murdroit = Mur(((0,screenSize[1]),(screenSize[0],screenSize[1])),MURDROITE)
         self.murgauche = Mur(((0,0),(0,screenSize[0])),MURGAUCHE)
@@ -30,24 +32,27 @@ class Univers:
  
     def animate(self):
         
-        #on verifie que la balle est en colision avec un des blocs
-        for x in range(nbBriqueX) :
-            for y in range(nbBriqueY) :
-                self.balle.get_colision(self.briques[x][y])
-        #on verifie que la balle est en colison avec un des murs
-        self.balle.get_colision(self.murdroit)
-        self.balle.get_colision(self.murgauche)
-        if (self.balle.get_colision(self.murbas) == -1):
-            print("on arrete tous")
-            return False
-        self.balle.get_colision(self.murhaut)
-        
+    
+        for i in range(len(self.balle)):
+            self.balle[i].get_colision(self.murhaut)
+                #on verifie que la balle est en colision avec un des blocs
+            for x in range(nbBriqueX) :
+                for y in range(nbBriqueY) :
+                    self.balle[i].get_colision(self.briques[x][y])
+            #on verifie que la balle est en colison avec un des murs
+            self.balle[i].get_colision(self.murdroit)
+            self.balle[i].get_colision(self.murgauche)
+            if (self.balle[i].get_colision(self.murbas) == -1):
+                print("on arrete tous")
+                return False
         self.screen.fill(noir)
-        self.balle.animate()
+
         self.palette.animate()
         self.palette.dessine(self.screen)
         self.dessineBriques()
-        self.balle.dessine(self.screen)
+        for i in range(len(self.balle)):
+            self.balle[i].animate()
+            self.balle[i].dessine(self.screen)        
         pygame.display.flip()
         return True
 
@@ -65,4 +70,8 @@ class Univers:
             for j in range(nbBriqueY):
                 print("y = " + str(j))
                 print(niveau1[j][i])
-        
+    
+    def add_balle(self,pos):
+        self.balle.append(Balle(pos))
+    def add_speed(self):
+        balle[0].add_speed()

@@ -4,16 +4,20 @@ import math
 import random
 from collision import *
 from couleur import *
+from univer import *
 #réglage des paramètres de balle : vitesse, rebond
 class Balle:
-    def __init__(self):
-        self.radius = 15
-        self.x = int (screenSize[0]/2 - self.radius)
-        self.y = screenSize[1] - 50
+    def __init__(self,pos):
+        self.radius = RADIUS
+        self.x = pos[0]
+        self.y = pos[1]
         self.angle = (300 * math.pi) / 180
-        self.vitesse = 0.5
+        self.vitesse = 1
         self.palette = Palette()
         
+        
+    def add_speed(self):
+        self.vitesse += 0.1
 # matérialistion de la balle         
     def dessine (self , screen):
         pygame.draw.circle(screen, blanc , (int(self.x),int(self.y)),self.radius)
@@ -67,6 +71,8 @@ class Balle:
                 print("fin du jeu")
                 self.y -= 1
                 self.rebondir()
+                
+                
 
 class Brique :
     def __init__(self, x, y,state):
@@ -74,6 +80,7 @@ class Brique :
         self.y = y
         self.state = state
         self.visible = True
+        #self.univer = Univers()
         
     def dessine(self , screen):
         if self.visible == True :
@@ -85,7 +92,7 @@ class Brique :
         if n == 0:
             return noir
         if n == 1:
-            return mediumseagreen
+            return green
         if n == 2:
             return mediumsgreen
         if n == 3:
@@ -104,7 +111,19 @@ class Brique :
     def get_y(self):
         return self.y
     def explose (self):
-        self.visible = False
+        if self.state == 1 :
+            self.visible = False
+        elif self.state == 2 : 
+            self.state -= 1 
+        elif self.state == 3 :
+            self.state -= 1 
+        elif self.state == 4:
+            univer.add_speed()
+        elif self.state == 7 :
+            univer.add_balle(self,(self.x,self.y))
+            self.visible = False
+            
+            
         
         
 class Mur:
