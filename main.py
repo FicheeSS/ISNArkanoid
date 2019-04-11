@@ -13,10 +13,10 @@ def main():
     univers.init()
     print(screenSize)
    
-    for t in range (2000):
+    for t in range (5000):
         encore = univers.animate()
         if encore == False :
-            t = 2000
+            t = 5000
 
 main()
 

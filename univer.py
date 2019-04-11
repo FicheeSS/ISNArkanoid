@@ -9,7 +9,7 @@ class Univers:
         print("univers")
         self.palette = Palette()
         self.balle = []
-        for i in range(10):
+        for i in range(1):
             self.balle.append(Balle(((int(screenSize[0]/2 - RADIUS)),int((screenSize[1] - 50)))))
         self.briques = []
         self.murdroit = Mur(((0,screenSize[1]),(screenSize[0],screenSize[1])),MURDROITE)
@@ -42,7 +42,8 @@ class Univers:
             #on verifie que la balle est en colison avec un des murs
             self.balle[i].get_colision(self.murdroit)
             self.balle[i].get_colision(self.murgauche)
-            if (self.balle[i].get_colision(self.murbas) == -1):
+            self.balle[i].get_colision(self.palette)
+            if (self.balle[i].get_colision(self.murbas) == False):
                 print("on arrete tous")
                 return False
         self.screen.fill(noir)

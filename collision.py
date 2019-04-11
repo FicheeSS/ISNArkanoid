@@ -46,5 +46,9 @@ def rebond_mur(pos,radius):
     elif pos[1]-radius <= 0:
         return MURHAUT 
     
-    
-
+def colisionPalette(pal,pos,radius):
+    if pal[1] <= pos[1]+radius  and pal[1]+PALETTEWIDTH >= pos[1]+radius:
+        return True
+        print("palette")
+    else:
+        return False

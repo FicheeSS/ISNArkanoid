@@ -38,10 +38,10 @@ class Balle:
 # on calcul l'angle de rebond lors d'une collision de la balle avec un mur
     def rebondir(self):
         RB = 2*math.pi - (math.pi + self.angle)
-        self.angle = math.pi/2 - RB + random.uniform(0.0 , 0.5)
+        self.angle = math.pi/2 - RB + random.uniform(-0.5 , 0.5)
     def rebondirgauche(self):
         RB = 2*math.pi - (math.pi + self.angle)
-        self.angle = math.pi + RB + random.uniform(0.0 , 0.5)
+        self.angle = math.pi + RB + random.uniform(-0.5 , 0.5)
     
     
 #on chercher a detecter la collision
@@ -59,21 +59,23 @@ class Balle:
                 self.x -= 1
                 print("mur droite")
                 self.rebondir()
+                return True
             elif rebond_mur((self.x,self.y),self.radius) == MURGAUCHE:
                 self.x += 1
                 print("mur gauche")
                 self.rebondirgauche()
+                return True
             elif rebond_mur((self.x,self.y),self.radius) == MURHAUT:
                 print("mur haut")
                 self.y += 1 
                 self.rebondir()
+                return True
             elif  rebond_mur((self.x,self.y),self.radius) == MURBAS:
-                print("fin du jeu")
+                return False
+        if (acteur.__class__.__name__ == "Palette"):
+            if colisionPalette(acteur.getPos(),(self.x,self.y),self.radius) == True :
                 self.y -= 1
                 self.rebondir()
-                
-                
-
 class Brique :
     def __init__(self, x, y,state):
         self.x = x
@@ -138,8 +140,8 @@ class Mur:
         
 class Palette:
     def __init__(self):
-        self.height = 10
-        self.width = 50
+        self.height = PALETTEHEIGHT
+        self.width = PALETTEWIDTH
         self.x = int(screenSize[0]/2 - self.width/2)
         self.y = screenSize[1]- self.height - 2 
         self.mvtdelta = 10
@@ -155,3 +157,5 @@ class Palette:
                 if event.key == pygame.K_LEFT:
                     if self.x > 0 :
                         self.x -= self.mvtdelta
+    def getPos(self):
+        return (self.x,self.y)
