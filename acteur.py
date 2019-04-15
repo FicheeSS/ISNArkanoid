@@ -12,7 +12,7 @@ class Balle:
         self.x = pos[0]
         self.y = pos[1]
         self.angle = (300 * math.pi) / 180
-        self.vitesse = 1
+        self.vitesse = 0.1
         self.palette = Palette()
         
         
@@ -38,10 +38,10 @@ class Balle:
 # on calcul l'angle de rebond lors d'une collision de la balle avec un mur
     def rebondir(self):
         RB = 2*math.pi - (math.pi + self.angle)
-        self.angle = math.pi/2 - RB + random.uniform(-0.5 , 0.5)
+        self.angle = math.pi/2 - RB + random.uniform(-0.01 , 0.01)
     def rebondirgauche(self):
         RB = 2*math.pi - (math.pi + self.angle)
-        self.angle = math.pi + RB + random.uniform(-0.5 , 0.5)
+        self.angle = math.pi + RB + random.uniform(-0.01, 0.01)
     
     
 #on chercher a detecter la collision
@@ -58,7 +58,7 @@ class Balle:
             if rebond_mur((self.x,self.y),self.radius) == MURDROITE:
                 self.x -= 1
                 print("mur droite")
-                self.rebondir()
+                self.rebondirgauche()
                 return True
             elif rebond_mur((self.x,self.y),self.radius) == MURGAUCHE:
                 self.x += 1
@@ -152,7 +152,7 @@ class Palette:
         for event in pygame.event.get():
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_RIGHT:
-                    if self.x < screenSize[0]:
+                    if self.x + self.width < screenSize[0]:
                         self.x += self.mvtdelta
                 if event.key == pygame.K_LEFT:
                     if self.x > 0 :

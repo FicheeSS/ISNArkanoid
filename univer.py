@@ -2,9 +2,13 @@ from acteur import *
 import pygame
 from globalvar import *
 from collision import *
+import time
 from levels import *
 class Univers:
     def __init__(self):
+        self.lastTime = 0
+        self.counter = 0
+        self.startupTime = time.time()
         #self.print_niveau()
         print("univers")
         self.palette = Palette()
@@ -31,7 +35,6 @@ class Univers:
         self.screen = pygame.display.set_mode(screenSize)
  
     def animate(self):
-        
     
         for i in range(len(self.balle)):
             self.balle[i].get_colision(self.murhaut)
@@ -55,6 +58,15 @@ class Univers:
             self.balle[i].animate()
             self.balle[i].dessine(self.screen)        
         pygame.display.flip()
+        
+        self.lastTime = (time.time() - self.startupTime) 
+        if int(self.lastTime) >= 1 :
+                self.startupTime += 1
+                self.counter += 1 
+        
+        #print("lt " + str(self.lastTime) + " counter " + str(self.counter))
+        
+        
         return True
 
     def get_brique_tab(self):
@@ -76,3 +88,10 @@ class Univers:
         self.balle.append(Balle(pos))
     def add_speed(self):
         balle[0].add_speed()
+    def texteTemp(self,tmp):
+        font = pygame.font.SysFont("verdana", 12, bold=False, italic=False)  
+        text_area = font.render(tmp, 1, noir)
+        text_size = font.size(tmp)
+        text_pos = [centre[0]-text_size[0]/2, centre[1]-text_size[1]/2]
+        # ancrage de la surface contenant le texte dans la fenêtre
+        screen.blit(text_area, text_pos)
