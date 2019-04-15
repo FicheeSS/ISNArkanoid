@@ -12,7 +12,7 @@ class Balle:
         self.x = pos[0]
         self.y = pos[1]
         self.angle = (300 * math.pi) / 180
-        self.vitesse = 0.1
+        self.vitesse = 1
         self.palette = Palette()
         
         
@@ -47,10 +47,12 @@ class Balle:
 #on chercher a detecter la collision
     def get_colision(self,acteur):
         if (acteur.__class__.__name__ == "Brique") :
+            """
             p1 = (acteur.get_x(),acteur.get_y()+heightCase)
             p2 = (acteur.get_x()+widthCase,acteur.get_y()+heightCase)
             liste_points = DetectColisionCercleDroite(p1,p2,(self.x,self.y),self.radius)
-            if len(liste_points) != 0:
+            """
+            if colisionBrique(acteur.getPos(),(self.x,self.y),self.radius) == True:
                 acteur.explose()
                 self.rebondir()
 
@@ -86,7 +88,7 @@ class Brique :
         
     def dessine(self , screen):
         if self.visible == True :
-            pygame.draw.rect(screen,self.stateToColor(),(self.x,self.y,widthCase,heightCase))   
+            pygame.draw.rect(screen,self.stateToColor(),(self.x,self.y,widthCase,heightCase)) 
 
 
     def stateToColor(self):
@@ -108,11 +110,10 @@ class Brique :
         if n == 7:
             return mediumvioletred
 
-    def get_x(self):
-        return self.x
-    def get_y(self):
-        return self.y
+    def getPos(self):
+        return(self.x,self.y)
     def explose (self):
+        print("explose")
         if self.state == 1 :
             self.visible = False
         elif self.state == 2 : 
@@ -123,9 +124,9 @@ class Brique :
             univer.add_speed()
         elif self.state == 7 :
             univer.add_balle(self,(self.x,self.y))
-            self.visible = False
-            
-            
+            self.visible = False            
+    def isVisible(self):
+        return self.visible
         
         
 class Mur:

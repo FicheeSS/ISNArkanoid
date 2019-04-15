@@ -12,18 +12,20 @@ def DetectColisionCercleDroite (p1,p2,c,ray):
     a = p2[1]-p1[1]/p2[0]-p1[0]
     b = p1[1]-a*p1[0]
     #Coefficient de l'équation
-    A=1+a
+    A=1+a*a
     B = -2*c[0]+2*a*b-2*a*c[1]
     C = c[0]*c[0]+c[1]*c[1]+b*b-2*b*c[1]-ray*ray
     #print(B*B-4*A*C)
-    if B*B-4*A*C < 0 :
+    delta = B*B-4*A*C
+    if  delta < 0 :
         #il se passe rien pas de point d'intersection
         return []
     else:
         #il a point d'intersection
-        if appartenance(p1,p2,[((-B-math.sqrt(B*B-4*A*C)/2*A),A*(-B-math.sqrt(B*B-4*A*C)/2*A)+B),((-B+math.sqrt(B*B-4*A*C)/2*A),A*(-B+math.sqrt(B*B-4*A*C)/2*A)+B)]) == True :    
-            return []            
-            #return [((-B-math.sqrt(B*B-4*A*C)/2*A),A*(-B-math.sqrt(B*B-4*A*C)/2*A)+B),((-B+math.sqrt(B*B-4*A*C)/2*A),A*(-B+math.sqrt(B*B-4*A*C)/2*A)+B)]
+        print("intersec p1 " + str(p1) +" p2 "+ str(p2)+" c+ray " + str(c))
+        if appartenance(p1,p2,[((-B-math.sqrt(delta)/2*A),A*(-B-math.sqrt(delta)/2*A)+B),((-B+math.sqrt(delta)/2*A),A*(-B+math.sqrt(delta)/2*A)+B)]) == True :    
+            #return []            
+            return [((-B-math.sqrt(delta)/2*A),A*(-B-math.sqrt(delta)/2*A)+B),((-B+math.sqrt(delta)/2*A),A*(-B+math.sqrt(delta)/2*A)+B)]
         else :
             return []
 
@@ -52,4 +54,10 @@ def colisionPalette(pal,pos,radius):
         print("palette")
         return True
     else:
+        return False
+def colisionBrique(bpos,c,radius):
+    if c[0]+radius >= bpos[0] and c[0]+radius <= bpos[0]+widthCase :
+        if c[1]+radius >= bpos[1] and c[1]+radius <= bpos[1]+heightCase:
+            return True 
+    else :
         return False

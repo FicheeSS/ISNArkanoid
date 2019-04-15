@@ -53,6 +53,8 @@ class Univers:
                 #on verifie que la balle est en colision avec un des blocs
             for x in range(nbBriqueX) :
                 for y in range(nbBriqueY) :
+                    #print(str(self.briques[x][y].isVisible))
+                    #if self.briques[x][y].isVisible == True:
                     self.balle[i].get_colision(self.briques[x][y])
             #on verifie que la balle est en colison avec un des murs
             self.balle[i].get_colision(self.murdroit)
