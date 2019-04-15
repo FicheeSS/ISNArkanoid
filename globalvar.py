@@ -6,6 +6,7 @@ nbBriqueX = 19
 nbBriqueY = 14
 
 screenSize = (int((nbBriqueX*widthCase)+((nbBriqueX+1)*ecartcase)),int(((nbBriqueY*heightCase)+((nbBriqueY+1)*ecartcase))*3))
+effectiveSize = (screenSize[0],screenSize[1]+20)
 
 MURHAUT = 1
 MURBAS = 0

@@ -6,6 +6,7 @@ import time
 from levels import *
 class Univers:
     def __init__(self):
+        self.mincount = 0
         self.lastTime = 0
         self.counter = 0
         self.startupTime = time.time()
@@ -32,7 +33,18 @@ class Univers:
 
     def init(self):
         # Création et affichage de la fenêtre graphique
-        self.screen = pygame.display.set_mode(screenSize)
+        self.screen = pygame.display.set_mode(effectiveSize)
+    def texteTemp(self):
+        if(self.counter >= 60 ):
+            self.mincount+= 1
+            self.counter = 0
+        tmp = (str(self.mincount)+":" +str(self.counter))
+        font = pygame.font.SysFont("verdana", 18, bold=False, italic=False)  
+        text_area = font.render(tmp, 1, blanc)
+        text_size = font.size(tmp)
+        text_pos = [effectiveSize[0]/2-text_size[0]/2, effectiveSize[1]-text_size[1]]
+        # ancrage de la surface contenant le texte dans la fenêtre
+        self.screen.blit(text_area, text_pos)
  
     def animate(self):
     
@@ -57,13 +69,14 @@ class Univers:
         for i in range(len(self.balle)):
             self.balle[i].animate()
             self.balle[i].dessine(self.screen)        
-        pygame.display.flip()
+ 
         
         self.lastTime = (time.time() - self.startupTime) 
         if int(self.lastTime) >= 1 :
                 self.startupTime += 1
                 self.counter += 1 
-        
+        self.texteTemp()
+        pygame.display.flip()
         #print("lt " + str(self.lastTime) + " counter " + str(self.counter))
         
         
@@ -88,10 +101,4 @@ class Univers:
         self.balle.append(Balle(pos))
     def add_speed(self):
         balle[0].add_speed()
-    def texteTemp(self,tmp):
-        font = pygame.font.SysFont("verdana", 12, bold=False, italic=False)  
-        text_area = font.render(tmp, 1, noir)
-        text_size = font.size(tmp)
-        text_pos = [centre[0]-text_size[0]/2, centre[1]-text_size[1]/2]
-        # ancrage de la surface contenant le texte dans la fenêtre
-        screen.blit(text_area, text_pos)
+    
