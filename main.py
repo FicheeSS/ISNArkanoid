@@ -15,8 +15,8 @@ def main():
     print(screenSize)
    
     while 1 != 0 :
-        encore = univers.animate()
-        if encore == False :
+        end = univers.animate()
+        if end == False :
             print("fin")
             pygame.quit()
             sys.exit(0 )

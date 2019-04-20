@@ -21,12 +21,7 @@ class Balle:
 # matérialistion de la balle         
     def dessine (self , screen):
         pygame.draw.circle(screen, blanc , (int(self.x),int(self.y)),self.radius)
-    def calculnextpos(self):
-        currentpos = (self.x,self.y)
-        Psuiv = []
-        Psuiv[0] = Psuiv[0] + 1
-        Psuiv[1] = int(currentpos[1] + math.tan((theta*math.pi)/180)*(Psuiv[0]-currentpos[0]))
-        return Psuiv
+
         
 # animation de la balle
     def animate(self):
@@ -82,7 +77,7 @@ class Brique :
             self.visible = True
         else:
             self.visible = False
-        #self.univer = Univers()
+        self.univer = Univers()
         
     def dessine(self , screen):
         if self.visible == True :
@@ -121,9 +116,9 @@ class Brique :
         elif self.state == 3 :
             self.state -= 1 
         elif self.state == 4:
-            univer.add_speed()
+            self.univer.add_speed()
         elif self.state == 7 :
-            univer.add_balle(self,(self.x,self.y))
+            self.univer.add_balle(self,(self.x,self.y))
             self.visible = False   
 
     def isVisible(self):

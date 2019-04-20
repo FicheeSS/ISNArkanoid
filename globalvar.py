@@ -1,7 +1,6 @@
 widthCase = 15
 heightCase = 10
 ecartcase = 2
-
 nbBriqueX = 19
 nbBriqueY = 14
 
@@ -12,7 +11,7 @@ MURHAUT = 1
 MURBAS = 0
 MURGAUCHE = 2
 MURDROITE = 3
-RADIUS = 15
+RADIUS = 5
 
 PALETTEHEIGHT = 10 
 PALETTEWIDTH = 50
