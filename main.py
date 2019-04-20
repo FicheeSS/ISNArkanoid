@@ -4,6 +4,7 @@ Author : Théo Bocquet
 from globalvar import *
 import pygame
 from univer import *
+import sys
          
 #global var
 univers = Univers()
@@ -13,13 +14,10 @@ def main():
     univers.init()
     print(screenSize)
    
-    for t in range (5000):
+    while 1 != 0 :
         encore = univers.animate()
         if encore == False :
             print("fin")
-            t = 5000
             pygame.quit()
-
+            sys.exit(0 )
 main()
-
-pygame.quit()

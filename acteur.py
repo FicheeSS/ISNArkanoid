@@ -47,13 +47,8 @@ class Balle:
 #on chercher a detecter la collision
     def get_colision(self,acteur):
         if (acteur.__class__.__name__ == "Brique") :
-            """
-            p1 = (acteur.get_x(),acteur.get_y()+heightCase)
-            p2 = (acteur.get_x()+widthCase,acteur.get_y()+heightCase)
-            liste_points = DetectColisionCercleDroite(p1,p2,(self.x,self.y),self.radius)
-            """
-            if colisionBrique(acteur.getPos(),(self.x,self.y),self.radius) == True:
-                acteur.explose()
+            if colisionBrique(acteur.getPos(),(self.x,self.y),self.radius) == True :
+                acteur.explose() 
                 self.rebondir()
 
         if (acteur.__class__.__name__ == "Mur") :
@@ -83,7 +78,10 @@ class Brique :
         self.x = x
         self.y = y
         self.state = state
-        self.visible = True
+        if state > 0 :
+            self.visible = True
+        else:
+            self.visible = False
         #self.univer = Univers()
         
     def dessine(self , screen):
@@ -112,8 +110,10 @@ class Brique :
 
     def getPos(self):
         return(self.x,self.y)
+
     def explose (self):
         print("explose")
+        print(self.state)
         if self.state == 1 :
             self.visible = False
         elif self.state == 2 : 
@@ -124,15 +124,20 @@ class Brique :
             univer.add_speed()
         elif self.state == 7 :
             univer.add_balle(self,(self.x,self.y))
-            self.visible = False            
+            self.visible = False   
+
     def isVisible(self):
         return self.visible
+
+    def getState(self):
+        return self.state
         
         
 class Mur:
     def __init__(self,extremites,type):
         self.extremites = extremites
         self.type = type
+        
 
     def get_extremite(self):
         return self.extremites
@@ -145,7 +150,8 @@ class Palette:
         self.width = PALETTEWIDTH
         self.x = int(screenSize[0]/2 - self.width/2)
         self.y = screenSize[1]- self.height - 2 
-        self.mvtdelta = 10
+        self.mvtdelta = 1
+        self.lastKey = 0 
     def dessine(self , screen):
         pygame.draw.rect(screen,blanc,(self.x,self.y,self.width,self.height))
     def animate(self):
@@ -153,10 +159,23 @@ class Palette:
         for event in pygame.event.get():
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_RIGHT:
+                    self.lastKey = r_KEY
                     if self.x + self.width < screenSize[0]:
                         self.x += self.mvtdelta
                 if event.key == pygame.K_LEFT:
+                    self.lastKey = l_KEY
                     if self.x > 0 :
                         self.x -= self.mvtdelta
+                if event.key == pygame.K_RIGHT and event.key == pygame.K_LEFT:
+                    self.lastKey = 0 
+            if event.type == pygame.KEYUP:
+                if event.key == pygame.K_RIGHT or event.key == pygame.K_LEFT:
+                    self.lastKey = 0 
+        if self.lastKey == l_KEY :
+            if self.x > 0 :
+                self.x -= self.mvtdelta
+        elif self.lastKey == r_KEY:
+            if self.x + self.width < screenSize[0]:
+                self.x += self.mvtdelta
     def getPos(self):
         return (self.x,self.y)

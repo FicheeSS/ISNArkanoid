@@ -53,9 +53,8 @@ class Univers:
                 #on verifie que la balle est en colision avec un des blocs
             for x in range(nbBriqueX) :
                 for y in range(nbBriqueY) :
-                    #print(str(self.briques[x][y].isVisible))
-                    #if self.briques[x][y].isVisible == True:
-                    self.balle[i].get_colision(self.briques[x][y])
+                    if self.briques[x][y].isVisible() == True:
+                        self.balle[i].get_colision(self.briques[x][y])
             #on verifie que la balle est en colison avec un des murs
             self.balle[i].get_colision(self.murdroit)
             self.balle[i].get_colision(self.murgauche)
@@ -86,6 +85,7 @@ class Univers:
 
     def get_brique_tab(self):
         return self.brique
+        
     def dessineBriques(self):
         #self.affichTableaux() 
         for x in range(nbBriqueX) :
@@ -101,6 +101,7 @@ class Univers:
     
     def add_balle(self,pos):
         self.balle.append(Balle(pos))
+
     def add_speed(self):
         balle[0].add_speed()
     
