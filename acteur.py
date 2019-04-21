@@ -33,10 +33,10 @@ class Balle:
 # on calcul l'angle de rebond lors d'une collision de la balle avec un mur
     def rebondir(self):
         RB = 2*math.pi - (math.pi + self.angle)
-        self.angle = math.pi/2 - RB + random.uniform(-0.01 , 0.01)
+        self.angle = math.pi/2 - RB + random.uniform(-0.05 , 0.05)
     def rebondirgauche(self):
         RB = 2*math.pi - (math.pi + self.angle)
-        self.angle = math.pi + RB + random.uniform(-0.01, 0.01)
+        self.angle = math.pi + RB + random.uniform(-0.05, 0.05)
     
     
 #on chercher a detecter la collision
@@ -77,7 +77,6 @@ class Brique :
             self.visible = True
         else:
             self.visible = False
-        #self.univer = Univers()
         
     def dessine(self , screen):
         if self.visible == True :
@@ -91,7 +90,7 @@ class Brique :
         if n == 1:
             return green
         if n == 2:
-            return mediumsgreen
+            return mediumseagreen 
         if n == 3:
             return darkseagreen
         if n == 4:
@@ -128,7 +127,7 @@ class Brique :
         return self.state
 
     def setState(self,state):
-        state = self.state
+        self.state = state
 
         
         

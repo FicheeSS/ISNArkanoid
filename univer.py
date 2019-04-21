@@ -6,6 +6,7 @@ import time
 from levels import *
 class Univers:
     def __init__(self):
+        self.currentLvl = "Niveau 1"
         self.mincount = 0
         self.lastTime = 0
         self.counter = 0
@@ -34,6 +35,7 @@ class Univers:
     def init(self):
         # Création et affichage de la fenêtre graphique
         self.screen = pygame.display.set_mode(effectiveSize)
+
     def texteTemp(self):
         if(self.counter >= 60 ):
             self.mincount+= 1
@@ -45,7 +47,23 @@ class Univers:
         text_pos = [effectiveSize[0]/2-text_size[0]/2, effectiveSize[1]-text_size[1]]
         # ancrage de la surface contenant le texte dans la fenêtre
         self.screen.blit(text_area, text_pos)
+
+    def texteLvl(self,lvl):
+        font = pygame.font.SysFont("verdana", 18, bold=False, italic=False)  
+        text_area = font.render(lvl, 1, blanc)
+        text_size = font.size(lvl)
+        text_pos = [effectiveSize[0]/2-text_size[0]/2 + 15 , effectiveSize[1]-text_size[1]]
+        # ancrage de la surface contenant le texte dans la fenêtre
+        self.screen.blit(text_area, text_pos)
  
+
+    def checkEnd(self):
+        for x in range(nbBriqueX) :
+            for y in range(nbBriqueY) :
+                if self.briques[x][y].getState() == 1 : 
+                    return False
+        return True
+
     def animate(self):
     
         for i in range(len(self.balle)):
@@ -69,8 +87,10 @@ class Univers:
         self.dessineBriques()
         for i in range(len(self.balle)):
             self.balle[i].animate()
-            self.balle[i].dessine(self.screen)        
- 
+            self.balle[i].dessine(self.screen)
+
+        if self.checkEnd() == True :
+            return True
         
         self.lastTime = (time.time() - self.startupTime) 
         if int(self.lastTime) >= 1 :
@@ -80,8 +100,6 @@ class Univers:
         pygame.display.flip()
         #print("lt " + str(self.lastTime) + " counter " + str(self.counter))
         
-        
-        return True
 
     def get_brique_tab(self):
         return self.brique
@@ -107,22 +125,36 @@ class Univers:
 
     def levelChange(self, niveau):
         if niveau == 2 :
+            print("niveau2")
             for x in range(nbBriqueX) :
                 for y in range(nbBriqueY) :
                     self.briques[x][y].setState(niveau2[y][x])
+                    print(niveau2[y][x])
+                    self.currentLvl = "Niveau 2"
         if niveau == 3 :
+            print("niveau3")
             for x in range(nbBriqueX) :
                 for y in range(nbBriqueY) :
                     self.briques[x][y].setState(niveau3[y][x])
+                    self.currentLvl = "Niveau 3"
         if niveau == 4 :
+            print("niveau4")
             for x in range(nbBriqueX) :
                 for y in range(nbBriqueY) :
                     self.briques[x][y].setState(niveau4[y][x])
+                    self.currentLvl = "Niveau 4"
         if niveau == 5 :
+            print("niveau5")
             for x in range(nbBriqueX) :
                 for y in range(nbBriqueY) :
                     self.briques[x][y].setState(niveau5[y][x])
+                    self.currentLvl = "Niveau 5"
+
+        self.balle = []
+        self.balle.append(Balle(((int(screenSize[0]/2 - RADIUS)),int((screenSize[1] - 50)))))
+
         self.mincount = 0
         self.lastTime = 0
         self.counter = 0
         self.startupTime = time.time()
+
