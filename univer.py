@@ -85,7 +85,7 @@ class Univers:
 
     def get_brique_tab(self):
         return self.brique
-        
+
     def dessineBriques(self):
         #self.affichTableaux() 
         for x in range(nbBriqueX) :
@@ -104,4 +104,25 @@ class Univers:
 
     def add_speed(self):
         balle[0].add_speed()
-    
+
+    def levelChange(self, niveau):
+        if niveau == 2 :
+            for x in range(nbBriqueX) :
+                for y in range(nbBriqueY) :
+                    self.briques[x][y].setState(niveau2[y][x])
+        if niveau == 3 :
+            for x in range(nbBriqueX) :
+                for y in range(nbBriqueY) :
+                    self.briques[x][y].setState(niveau3[y][x])
+        if niveau == 4 :
+            for x in range(nbBriqueX) :
+                for y in range(nbBriqueY) :
+                    self.briques[x][y].setState(niveau4[y][x])
+        if niveau == 5 :
+            for x in range(nbBriqueX) :
+                for y in range(nbBriqueY) :
+                    self.briques[x][y].setState(niveau5[y][x])
+        self.mincount = 0
+        self.lastTime = 0
+        self.counter = 0
+        self.startupTime = time.time()

@@ -16,7 +16,7 @@ def main():
    
     while 1 != 0 :
         end = univers.animate()
-        if end == False :
+        if end  == False :
             print("fin")
             pygame.quit()
             sys.exit(0 )

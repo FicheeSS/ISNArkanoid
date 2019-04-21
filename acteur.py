@@ -77,7 +77,7 @@ class Brique :
             self.visible = True
         else:
             self.visible = False
-        self.univer = Univers()
+        #self.univer = Univers()
         
     def dessine(self , screen):
         if self.visible == True :
@@ -126,6 +126,10 @@ class Brique :
 
     def getState(self):
         return self.state
+
+    def setState(self,state):
+        state = self.state
+
         
         
 class Mur:
