@@ -7,19 +7,15 @@ from univer import *
 import sys
          
 #global var
-
+univers = Univers()
 
 
 def main():
     pygame.init()
     univers.init()
-    level = 2
-    i = 1
+    level = 1
     while 1 != 0 :
         win = univers.animate()
-        if i == 1:
-            univers.levelChange(2)
-            i += 1
         if win  == False :
             print("fin")
             pygame.quit()

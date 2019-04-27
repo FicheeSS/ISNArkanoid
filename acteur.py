@@ -69,7 +69,7 @@ class Balle:
                 self.y -= 1
                 self.rebondir()
 class Brique :
-    def __init__(self, x, y,state):
+    def __init__(self, x, y,state,univer):
         self.x = x
         self.y = y
         self.state = state
@@ -77,6 +77,8 @@ class Brique :
             self.visible = True
         else:
             self.visible = False
+        self.univer = univer
+
         
     def dessine(self , screen):
         if self.visible == True :
@@ -115,7 +117,7 @@ class Brique :
         elif self.state == 3 :
             self.state -= 1 
         elif self.state == 4:
-            self.univer.add_speed()
+            self.univer.add_speed(self.univer)
         elif self.state == 7 :
             self.univer.add_balle(self,(self.x,self.y))
             self.visible = False   

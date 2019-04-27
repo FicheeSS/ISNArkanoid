@@ -7,21 +7,25 @@ from levels import *
 class Univers:
     def __init__(self):
         self.currentLvl = "Niveau 1"
+        #initialisation du timers
         self.mincount = 0
         self.lastTime = 0
         self.counter = 0
         self.startupTime = time.time()
-        #self.print_niveau()
-        print("univers")
-        self.palette = Palette()
+        #creation de.s balle.s
         self.balle = []
         for i in range(1):
             self.balle.append(Balle(((int(screenSize[0]/2 - RADIUS)),int((screenSize[1] - 50)))))
-        self.briques = []
+        
+        #creation de la palette
+        self.palette = Palette()
+
         self.murdroit = Mur(((0,screenSize[1]),(screenSize[0],screenSize[1])),MURDROITE)
         self.murgauche = Mur(((0,0),(0,screenSize[0])),MURGAUCHE)
         self.murhaut = Mur(((0,0),(0,screenSize[1])),MURHAUT)
         self.murbas = Mur(((screenSize[0],0),(screenSize[0],screenSize[1])),MURBAS)
+
+        self.briques = []
         for i in range(nbBriqueX):
             self.briques.append([0]*nbBriqueX)
         for x in range(nbBriqueX) :
@@ -29,7 +33,7 @@ class Univers:
                 sx = (x*widthCase)+ecartcase*(x+1)
                 sy = (y*heightCase)+ecartcase*(y+1)
                 state = niveau1[y][x]
-                brique = Brique(sx, sy,state)
+                brique = Brique(sx, sy,state,Univers)
                 self.briques[x][y] = brique
 
     def init(self):
@@ -52,7 +56,7 @@ class Univers:
         font = pygame.font.SysFont("verdana", 18, bold=False, italic=False)  
         text_area = font.render(lvl, 1, blanc)
         text_size = font.size(lvl)
-        text_pos = [effectiveSize[0]/2-text_size[0]/2 + 15 , effectiveSize[1]-text_size[1]]
+        text_pos = [effectiveSize[0]/2+text_size[0]/2 , effectiveSize[1]-text_size[1]]
         # ancrage de la surface contenant le texte dans la fenêtre
         self.screen.blit(text_area, text_pos)
  
@@ -97,8 +101,10 @@ class Univers:
                 self.startupTime += 1
                 self.counter += 1 
         self.texteTemp()
+        self.texteLvl(self.currentLvl)
         pygame.display.flip()
         #print("lt " + str(self.lastTime) + " counter " + str(self.counter))
+        
         
 
     def get_brique_tab(self):
@@ -121,7 +127,8 @@ class Univers:
         self.balle.append(Balle(pos))
 
     def add_speed(self):
-        balle[0].add_speed()
+        print(balle)
+        Balle.balle[0].add_speed()
 
     def levelChange(self, niveau):
         if niveau == 2 :
