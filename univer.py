@@ -7,24 +7,23 @@ from levels import *
 class Univers:
     def __init__(self):
         self.currentLvl = "Niveau 1"
-        #initialisation du timers
+        #initialisation du timer
         self.mincount = 0
         self.lastTime = 0
         self.counter = 0
         self.startupTime = time.time()
-        #creation de.s balle.s
+        #creation de balle
         self.balle = []
-        for i in range(1):
-            self.balle.append(Balle(((int(screenSize[0]/2 - RADIUS)),int((screenSize[1] - 50)))))
+        self.balle.append(Balle(((int(screenSize[0]/2 - RADIUS)),int((screenSize[1] - 50)))))
         
         #creation de la palette
         self.palette = Palette()
-
+        #creation des murs
         self.murdroit = Mur(((0,screenSize[1]),(screenSize[0],screenSize[1])),MURDROITE)
         self.murgauche = Mur(((0,0),(0,screenSize[0])),MURGAUCHE)
         self.murhaut = Mur(((0,0),(0,screenSize[1])),MURHAUT)
         self.murbas = Mur(((screenSize[0],0),(screenSize[0],screenSize[1])),MURBAS)
-
+        #creation des briques dans un array 2D
         self.briques = []
         for i in range(nbBriqueX):
             self.briques.append([0]*nbBriqueX)
@@ -41,6 +40,7 @@ class Univers:
         self.screen = pygame.display.set_mode(effectiveSize)
 
     def texteTemp(self):
+        #fonction d'affichage du temps
         if(self.counter >= 60 ):
             self.mincount+= 1
             self.counter = 0
@@ -53,6 +53,7 @@ class Univers:
         self.screen.blit(text_area, text_pos)
 
     def texteLvl(self,lvl):
+        #Fonction d'affichage du niveau en cour
         font = pygame.font.SysFont("verdana", 18, bold=False, italic=False)  
         text_area = font.render(lvl, 1, blanc)
         text_size = font.size(lvl)
@@ -64,73 +65,69 @@ class Univers:
     def checkEnd(self):
         for x in range(nbBriqueX) :
             for y in range(nbBriqueY) :
-                if self.briques[x][y].getState() == 1 : 
+                if self.briques[x][y].isVisible() == 1 : 
                     return False
         return True
 
     def animate(self):
-    
+        #verification des collisions pour chaques balles  
         for i in range(len(self.balle)):
-            self.balle[i].get_colision(self.murhaut)
                 #on verifie que la balle est en colision avec un des blocs
             for x in range(nbBriqueX) :
                 for y in range(nbBriqueY) :
                     if self.briques[x][y].isVisible() == True:
                         self.balle[i].get_colision(self.briques[x][y])
             #on verifie que la balle est en colison avec un des murs
+            self.balle[i].get_colision(self.murhaut)
             self.balle[i].get_colision(self.murdroit)
             self.balle[i].get_colision(self.murgauche)
             self.balle[i].get_colision(self.palette)
             if (self.balle[i].get_colision(self.murbas) == False):
-                print("on arrete tous")
+                #fin du jeu le joueur a perdu
                 return False
+        #passage a l'affichage des différents éléments graphiques 
         self.screen.fill(noir)
-
         self.palette.animate()
         self.palette.dessine(self.screen)
+        #fonction pour redessiner toutes les briques 
         self.dessineBriques()
         for i in range(len(self.balle)):
+            #deplacement et dessins des balles 
             self.balle[i].animate()
             self.balle[i].dessine(self.screen)
 
         if self.checkEnd() == True :
+            #si il n'y a plus aucune brique sur le terrain le niveau est fini
             return True
-        
+
+        #timer         
         self.lastTime = (time.time() - self.startupTime) 
         if int(self.lastTime) >= 1 :
                 self.startupTime += 1
                 self.counter += 1 
         self.texteTemp()
+        #affichage du niveau actuel
         self.texteLvl(self.currentLvl)
+        #rafraichissement de l'affichage 
         pygame.display.flip()
-        #print("lt " + str(self.lastTime) + " counter " + str(self.counter))
         
-        
-
-    def get_brique_tab(self):
-        return self.brique
 
     def dessineBriques(self):
-        #self.affichTableaux() 
+        #fonction de dessins de toutes les briques sur le terrain  
         for x in range(nbBriqueX) :
             for y in range(nbBriqueY) :
                 self.briques[x][y].dessine(self.screen) 
-
-    def print_niveau(self):
-        for i in range(nbBriqueX):
-            print("x = " + str(i))
-            for j in range(nbBriqueY):
-                print("y = " + str(j))
-                print(niveau1[j][i])
     
     def add_balle(self,pos):
+        #ne marche pas encore 
         self.balle.append(Balle(pos))
 
     def add_speed(self):
-        print(balle)
-        Balle.balle[0].add_speed()
+        #en cour de test
+        Balle.add_speed(Univers.balle[0])
 
     def levelChange(self, niveau):
+        #fonction pour changer de niveau 
         if niveau == 2 :
             print("niveau2")
             for x in range(nbBriqueX) :
@@ -156,10 +153,11 @@ class Univers:
                 for y in range(nbBriqueY) :
                     self.briques[x][y].setState(niveau5[y][x])
                     self.currentLvl = "Niveau 5"
-
+        
+        #réinitialisation de la balle 
         self.balle = []
         self.balle.append(Balle(((int(screenSize[0]/2 - RADIUS)),int((screenSize[1] - 50)))))
-
+        #réinitailisation des counters 
         self.mincount = 0
         self.lastTime = 0
         self.counter = 0

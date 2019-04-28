@@ -5,9 +5,10 @@ import random
 from collision import *
 from couleur import *
 from univer import *
-#réglage des paramètres de balle : vitesse, rebond
+
 class Balle:
     def __init__(self,pos):
+        #réglage des paramètres de balle : vitesse, rebond
         self.radius = RADIUS
         self.x = pos[0]
         self.y = pos[1]
@@ -17,14 +18,16 @@ class Balle:
         
         
     def add_speed(self):
+        #ajoute de la vitesse a la balle 
         self.vitesse += 0.1
-# matérialistion de la balle         
+         
     def dessine (self , screen):
+        # dessin de la balle
         pygame.draw.circle(screen, blanc , (int(self.x),int(self.y)),self.radius)
 
         
-# animation de la balle
     def animate(self):
+        # calcul de la nouvel position de la balle 
         dx = math.sin(self.angle) * self.vitesse
         dy = -math.cos(self.angle) * self.vitesse
         self.x += dx
@@ -41,8 +44,10 @@ class Balle:
     
 #on chercher a detecter la collision
     def get_colision(self,acteur):
+        #pour chaque acteur on effectue la recherche de la colision 
         if (acteur.__class__.__name__ == "Brique") :
             if colisionBrique(acteur.getPos(),(self.x,self.y),self.radius) == True :
+                # on demande a la brique en question de disparaitre
                 acteur.explose() 
                 self.rebondir()
 
@@ -72,11 +77,13 @@ class Brique :
     def __init__(self, x, y,state,univer):
         self.x = x
         self.y = y
+        # l'etat est definie par le tableau niveau
         self.state = state
         if state > 0 :
             self.visible = True
         else:
             self.visible = False
+        #pour debug :
         self.univer = univer
 
         
@@ -86,6 +93,7 @@ class Brique :
 
 
     def stateToColor(self):
+        # fait correspondre un etat à une couleur 
         n = self.state 
         if n == 0:
             return noir
@@ -105,10 +113,11 @@ class Brique :
             return mediumvioletred
 
     def getPos(self):
+        #envoie un tuple de la postion en x et y 
         return(self.x,self.y)
 
     def explose (self):
-        print("explose")
+        # on effectue les actions correspondantes a l'état de la balle 
         print(self.state)
         if self.state == 1 :
             self.visible = False
@@ -117,19 +126,25 @@ class Brique :
         elif self.state == 3 :
             self.state -= 1 
         elif self.state == 4:
+            # en test
             self.univer.add_speed(self.univer)
+            self.visible = 0
         elif self.state == 7 :
+            # ne fonctionne pas 
             self.univer.add_balle(self,(self.x,self.y))
             self.visible = False   
 
     def isVisible(self):
+        # permet de savoir si la brique est visible pour par exemple savoir si il faut calculer la colision
         return self.visible
 
-    def getState(self):
-        return self.state
-
     def setState(self,state):
+        # fonction utilisé dans le changement de niveau 
         self.state = state
+        if self.state == 0 :
+            self.visible = 0
+        else:
+            self.visible = 1
 
         
         
@@ -138,7 +153,7 @@ class Mur:
         self.extremites = extremites
         self.type = type
         
-
+    # utilisé pour savoir avec quel mur on a la colision
     def get_extremite(self):
         return self.extremites
     def get_type(self):
@@ -152,12 +167,17 @@ class Palette:
         self.y = screenSize[1]- self.height - 2 
         self.mvtdelta = 1
         self.lastKey = 0 
+
     def dessine(self , screen):
         pygame.draw.rect(screen,blanc,(self.x,self.y,self.width,self.height))
+
     def animate(self):
+        # fonction permettant de déplacer la palette avec un etat memoire pour permettre de faire un mouvement continuel
         pygame.event.pump()
         for event in pygame.event.get():
             if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_RIGHT and event.key == pygame.K_LEFT:
+                    self.lastKey = 0
                 if event.key == pygame.K_RIGHT:
                     self.lastKey = r_KEY
                     if self.x + self.width < screenSize[0]:
@@ -166,8 +186,6 @@ class Palette:
                     self.lastKey = l_KEY
                     if self.x > 0 :
                         self.x -= self.mvtdelta
-                if event.key == pygame.K_RIGHT and event.key == pygame.K_LEFT:
-                    self.lastKey = 0 
             if event.type == pygame.KEYUP:
                 if event.key == pygame.K_RIGHT or event.key == pygame.K_LEFT:
                     self.lastKey = 0 
@@ -177,5 +195,7 @@ class Palette:
         elif self.lastKey == r_KEY:
             if self.x + self.width < screenSize[0]:
                 self.x += self.mvtdelta
+
     def getPos(self):
+        # colision 
         return (self.x,self.y)
