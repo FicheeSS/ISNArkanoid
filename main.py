@@ -18,9 +18,10 @@ def main():
     while 1 != 0 :
         win = univers.animate()
         #debug pour forcer à changer de niveau
-        if i == 1 :
+        """if i == 1 :
             i = 2
             win = True 
+            """
         if win  == False :
             print("fin")
             pygame.quit()
