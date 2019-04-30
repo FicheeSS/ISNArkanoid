@@ -13,27 +13,27 @@ class Univers:
         self.counter = 0
         self.startupTime = time.time()
         #creation de balle
-        self.balle = []
-        self.balle.append(Balle(((int(screenSize[0]/2 - RADIUS)),int((screenSize[1] - 50)))))
+        self.ball = []
+        self.ball.append(Ball(((int(SCREENSIZE[0]/2 - RADIUS)),int((SCREENSIZE[1] - 50)))))
         
         #creation de la palette
         self.palette = Palette()
         #creation des murs
-        self.murdroit = Mur(((0,screenSize[1]),(screenSize[0],screenSize[1])),MURDROITE)
-        self.murgauche = Mur(((0,0),(0,screenSize[0])),MURGAUCHE)
-        self.murhaut = Mur(((0,0),(0,screenSize[1])),MURHAUT)
-        self.murbas = Mur(((screenSize[0],0),(screenSize[0],screenSize[1])),MURBAS)
+        self.murdroit = Mur(((0,SCREENSIZE[1]),(SCREENSIZE[0],SCREENSIZE[1])),RIGHTWALL)
+        self.murgauche = Mur(((0,0),(0,SCREENSIZE[0])),LEFTWALL)
+        self.murhaut = Mur(((0,0),(0,SCREENSIZE[1])),TOPWALL)
+        self.murbas = Mur(((SCREENSIZE[0],0),(SCREENSIZE[0],SCREENSIZE[1])),BOTTOMWALL)
         #creation des briques dans un array 2D
-        self.briques = []
-        for i in range(nbBriqueX):
-            self.briques.append([0]*nbBriqueX)
-        for x in range(nbBriqueX) :
-            for y in range(nbBriqueY) :
-                sx = (x*widthCase)+ecartcase*(x+1)
-                sy = (y*heightCase)+ecartcase*(y+1)
+        self.bricks = []
+        for i in range(NBRICKSX):
+            self.bricks.append([0]*NBRICKSX)
+        for x in range(NBRICKSX) :
+            for y in range(NBRICKSY) :
+                sx = (x*WCASE)+GCASE*(x+1)
+                sy = (y*HCASE)+GCASE*(y+1)
                 state = niveau1[y][x]
                 brique = Brique(sx, sy,state,Univers)
-                self.briques[x][y] = brique
+                self.bricks[x][y] = brique
 
     def init(self):
         # Création et affichage de la fenêtre graphique
@@ -63,26 +63,26 @@ class Univers:
  
 
     def checkEnd(self):
-        for x in range(nbBriqueX) :
-            for y in range(nbBriqueY) :
-                if self.briques[x][y].isVisible() == 1 : 
+        for x in range(NBRICKSX) :
+            for y in range(NBRICKSY) :
+                if self.bricks[x][y].isVisible() == 1 : 
                     return False
         return True
 
     def animate(self):
         #verification des collisions pour chaques balles  
-        for i in range(len(self.balle)):
+        for i in range(len(self.ball)):
                 #on verifie que la balle est en colision avec un des blocs
-            for x in range(nbBriqueX) :
-                for y in range(nbBriqueY) :
-                    if self.briques[x][y].isVisible() == True:
-                        self.balle[i].get_colision(self.briques[x][y])
+            for x in range(NBRICKSX) :
+                for y in range(NBRICKSY) :
+                    if self.bricks[x][y].isVisible() == True:
+                        self.ball[i].get_colision(self.bricks[x][y])
             #on verifie que la balle est en colison avec un des murs
-            self.balle[i].get_colision(self.murhaut)
-            self.balle[i].get_colision(self.murdroit)
-            self.balle[i].get_colision(self.murgauche)
-            self.balle[i].get_colision(self.palette)
-            if (self.balle[i].get_colision(self.murbas) == False):
+            self.ball[i].get_colision(self.murhaut)
+            self.ball[i].get_colision(self.murdroit)
+            self.ball[i].get_colision(self.murgauche)
+            self.ball[i].get_colision(self.palette)
+            if (self.ball[i].get_colision(self.murbas) == False):
                 #fin du jeu le joueur a perdu
                 return False
         #passage a l'affichage des différents éléments graphiques 
@@ -91,10 +91,10 @@ class Univers:
         self.palette.dessine(self.screen)
         #fonction pour redessiner toutes les briques 
         self.dessineBriques()
-        for i in range(len(self.balle)):
+        for i in range(len(self.ball)):
             #deplacement et dessins des balles 
-            self.balle[i].animate()
-            self.balle[i].dessine(self.screen)
+            self.ball[i].animate()
+            self.ball[i].dessine(self.screen)
 
         if self.checkEnd() == True :
             #si il n'y a plus aucune brique sur le terrain le niveau est fini
@@ -114,49 +114,49 @@ class Univers:
 
     def dessineBriques(self):
         #fonction de dessins de toutes les briques sur le terrain  
-        for x in range(nbBriqueX) :
-            for y in range(nbBriqueY) :
-                self.briques[x][y].dessine(self.screen) 
+        for x in range(NBRICKSX) :
+            for y in range(NBRICKSY) :
+                self.bricks[x][y].dessine(self.screen) 
     
     def add_balle(self,pos):
         #ne marche pas encore 
-        self.balle.append(Balle(pos))
+        self.ball.append(Ball(pos))
 
     def add_speed(self):
         #en cour de test
-        Balle.add_speed(Univers.balle[0])
+        Ball.add_speed(Univers.ball[0])
 
     def levelChange(self, niveau):
         #fonction pour changer de niveau 
         if niveau == 2 :
             print("niveau2")
-            for x in range(nbBriqueX) :
-                for y in range(nbBriqueY) :
-                    self.briques[x][y].setState(niveau2[y][x])
+            for x in range(NBRICKSX) :
+                for y in range(NBRICKSY) :
+                    self.bricks[x][y].setState(niveau2[y][x])
                     print(niveau2[y][x])
                     self.currentLvl = "Niveau 2"
         if niveau == 3 :
             print("niveau3")
-            for x in range(nbBriqueX) :
-                for y in range(nbBriqueY) :
-                    self.briques[x][y].setState(niveau3[y][x])
+            for x in range(NBRICKSX) :
+                for y in range(NBRICKSY) :
+                    self.bricks[x][y].setState(niveau3[y][x])
                     self.currentLvl = "Niveau 3"
         if niveau == 4 :
             print("niveau4")
-            for x in range(nbBriqueX) :
-                for y in range(nbBriqueY) :
-                    self.briques[x][y].setState(niveau4[y][x])
+            for x in range(NBRICKSX) :
+                for y in range(NBRICKSY) :
+                    self.bricks[x][y].setState(niveau4[y][x])
                     self.currentLvl = "Niveau 4"
         if niveau == 5 :
             print("niveau5")
-            for x in range(nbBriqueX) :
-                for y in range(nbBriqueY) :
-                    self.briques[x][y].setState(niveau5[y][x])
+            for x in range(NBRICKSX) :
+                for y in range(NBRICKSY) :
+                    self.bricks[x][y].setState(niveau5[y][x])
                     self.currentLvl = "Niveau 5"
         
         #réinitialisation de la balle 
-        self.balle = []
-        self.balle.append(Balle(((int(screenSize[0]/2 - RADIUS)),int((screenSize[1] - 50)))))
+        self.ball = []
+        self.ball.append(Ball(((int(SCREENSIZE[0]/2 - RADIUS)),int((SCREENSIZE[1] - 50)))))
         #réinitailisation des counters 
         self.mincount = 0
         self.lastTime = 0

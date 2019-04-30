@@ -6,20 +6,20 @@ from collision import *
 from couleur import *
 from univer import *
 
-class Balle:
+class Ball:
     def __init__(self,pos):
         #réglage des paramètres de balle : vitesse, rebond
         self.radius = RADIUS
         self.x = pos[0]
         self.y = pos[1]
         self.angle = (300 * math.pi) / 180
-        self.vitesse = 1
+        self.speed = 1
         self.palette = Palette()
         
         
     def add_speed(self):
         #ajoute de la vitesse a la balle 
-        self.vitesse += 0.1
+        self.speed += 0.1
          
     def dessine (self , screen):
         # dessin de la balle
@@ -28,8 +28,8 @@ class Balle:
         
     def animate(self):
         # calcul de la nouvel position de la balle 
-        dx = math.sin(self.angle) * self.vitesse
-        dy = -math.cos(self.angle) * self.vitesse
+        dx = math.sin(self.angle) * self.speed
+        dy = -math.cos(self.angle) * self.speed
         self.x += dx
         self.y += dy
         
@@ -48,26 +48,26 @@ class Balle:
         if (acteur.__class__.__name__ == "Brique") :
             if colisionBrique(acteur.getPos(),(self.x,self.y),self.radius) == True :
                 # on demande a la brique en question de disparaitre
-                acteur.explose() 
+                acteur.explode() 
                 self.rebondir()
 
         if (acteur.__class__.__name__ == "Mur") :
-            if rebond_mur((self.x,self.y),self.radius) == MURDROITE:
+            if rebond_mur((self.x,self.y),self.radius) == RIGHTWALL:
                 self.x -= 1
                 print("mur droite")
                 self.rebondirgauche()
                 return True
-            elif rebond_mur((self.x,self.y),self.radius) == MURGAUCHE:
+            elif rebond_mur((self.x,self.y),self.radius) == LEFTWALL:
                 self.x += 1
                 print("mur gauche")
                 self.rebondirgauche()
                 return True
-            elif rebond_mur((self.x,self.y),self.radius) == MURHAUT:
+            elif rebond_mur((self.x,self.y),self.radius) == TOPWALL:
                 print("mur haut")
                 self.y += 1 
                 self.rebondir()
                 return True
-            elif  rebond_mur((self.x,self.y),self.radius) == MURBAS:
+            elif  rebond_mur((self.x,self.y),self.radius) == BOTTOMWALL:
                 return False
         if (acteur.__class__.__name__ == "Palette"):
             if colisionPalette(acteur.getPos(),(self.x,self.y),self.radius) == True :
@@ -89,7 +89,7 @@ class Brique :
         
     def dessine(self , screen):
         if self.visible == True :
-            pygame.draw.rect(screen,self.stateToColor(),(self.x,self.y,widthCase,heightCase)) 
+            pygame.draw.rect(screen,self.stateToColor(),(self.x,self.y,WCASE,HCASE)) 
 
 
     def stateToColor(self):
@@ -116,9 +116,8 @@ class Brique :
         #envoie un tuple de la postion en x et y 
         return(self.x,self.y)
 
-    def explose (self):
+    def explode (self):
         # on effectue les actions correspondantes a l'état de la balle 
-        print(self.state)
         if self.state == 1 :
             self.visible = False
         elif self.state == 2 : 
@@ -130,8 +129,8 @@ class Brique :
             self.univer.add_speed(self.univer)
             self.visible = 0
         elif self.state == 7 :
-            # ne fonctionne pas 
-            self.univer.add_balle(self,(self.x,self.y))
+            # ne fonctionne pas/ comme celui du dessus  
+            self.univer.add_ball(self,(self.x,self.y))
             self.visible = False   
 
     def isVisible(self):
@@ -163,8 +162,8 @@ class Palette:
     def __init__(self):
         self.height = PALETTEHEIGHT
         self.width = PALETTEWIDTH
-        self.x = int(screenSize[0]/2 - self.width/2)
-        self.y = screenSize[1]- self.height - 2 
+        self.x = int(SCREENSIZE[0]/2 - self.width/2)
+        self.y = SCREENSIZE[1]- self.height - 2 
         self.mvtdelta = 1
         self.lastKey = 0 
 
@@ -180,7 +179,7 @@ class Palette:
                     self.lastKey = 0
                 if event.key == pygame.K_RIGHT:
                     self.lastKey = r_KEY
-                    if self.x + self.width < screenSize[0]:
+                    if self.x + self.width < SCREENSIZE[0]:
                         self.x += self.mvtdelta
                 if event.key == pygame.K_LEFT:
                     self.lastKey = l_KEY
@@ -193,7 +192,7 @@ class Palette:
             if self.x > 0 :
                 self.x -= self.mvtdelta
         elif self.lastKey == r_KEY:
-            if self.x + self.width < screenSize[0]:
+            if self.x + self.width < SCREENSIZE[0]:
                 self.x += self.mvtdelta
 
     def getPos(self):

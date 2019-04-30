@@ -1,16 +1,16 @@
-widthCase = 15
-heightCase = 10
-ecartcase = 2
-nbBriqueX = 19
-nbBriqueY = 14
+WCASE = 15
+HCASE = 10
+GCASE = 2
+NBRICKSX = 19
+NBRICKSY = 14
 
-screenSize = (int((nbBriqueX*widthCase)+((nbBriqueX+1)*ecartcase)),int(((nbBriqueY*heightCase)+((nbBriqueY+1)*ecartcase))*3))
-effectiveSize = (screenSize[0],screenSize[1]+20)
+SCREENSIZE = (int((NBRICKSX*WCASE)+((NBRICKSX+1)*GCASE)),int(((NBRICKSY*HCASE)+((NBRICKSY+1)*GCASE))*3))
+effectiveSize = (SCREENSIZE[0],SCREENSIZE[1]+20)
 
-MURHAUT = 1
-MURBAS = 0
-MURGAUCHE = 2
-MURDROITE = 3
+TOPWALL = 1
+BOTTOMWALL = 0
+LEFTWALL = 2
+RIGHTWALL = 3
 RADIUS = 7
 
 PALETTEHEIGHT = 10 

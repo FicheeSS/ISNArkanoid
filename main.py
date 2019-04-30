@@ -21,7 +21,6 @@ def main():
         if i == 1 :
             i = 2
             win = True 
-            print("force true")
         if win  == False :
             print("fin")
             pygame.quit()
