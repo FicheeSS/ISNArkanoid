@@ -6,7 +6,8 @@ import time
 from levels import *
 class Univers:
     def __init__(self):
-        self.currentLvl = "Niveau 1"
+        print(str(len(LLEVEL)))
+        self.currentLvl = 0
         #initialisation du timer
         self.mincount = 0
         self.lastTime = 0
@@ -31,7 +32,7 @@ class Univers:
             for y in range(NBRICKSY) :
                 sx = (x*WCASE)+GCASE*(x+1)
                 sy = (y*HCASE)+GCASE*(y+1)
-                state = niveau1[y][x]
+                state = LLEVEL[self.currentLvl][y][x]
                 brique = Brique(sx, sy,state,Univers)
                 self.bricks[x][y] = brique
 
@@ -52,8 +53,9 @@ class Univers:
         # ancrage de la surface contenant le texte dans la fenêtre
         self.screen.blit(text_area, text_pos)
 
-    def texteLvl(self,lvl):
+    def texteLvl(self):
         #Fonction d'affichage du niveau en cour
+        lvl = "Niveau " + str(self.currentLvl+1)
         font = pygame.font.SysFont("verdana", 18, bold=False, italic=False)  
         text_area = font.render(lvl, 1, blanc)
         text_size = font.size(lvl)
@@ -107,7 +109,7 @@ class Univers:
                 self.counter += 1 
         self.texteTemp()
         #affichage du niveau actuel
-        self.texteLvl(self.currentLvl)
+        self.texteLvl()
         #rafraichissement de l'affichage 
         pygame.display.flip()
         
@@ -126,33 +128,17 @@ class Univers:
         #en cour de test
         Ball.add_speed(Univers.ball[0])
 
-    def levelChange(self, niveau):
-        #fonction pour changer de niveau 
-        if niveau == 2 :
-            print("niveau2")
+    def levelChange(self):
+        #fonction pour changer de niveau
+        if self.currentLvl + 1 < len(LLEVEL):
+            self.currentLvl += 1
             for x in range(NBRICKSX) :
                 for y in range(NBRICKSY) :
-                    self.bricks[x][y].setState(niveau2[y][x])
-                    print(niveau2[y][x])
-                    self.currentLvl = "Niveau 2"
-        if niveau == 3 :
-            print("niveau3")
-            for x in range(NBRICKSX) :
-                for y in range(NBRICKSY) :
-                    self.bricks[x][y].setState(niveau3[y][x])
-                    self.currentLvl = "Niveau 3"
-        if niveau == 4 :
-            print("niveau4")
-            for x in range(NBRICKSX) :
-                for y in range(NBRICKSY) :
-                    self.bricks[x][y].setState(niveau4[y][x])
-                    self.currentLvl = "Niveau 4"
-        if niveau == 5 :
-            print("niveau5")
-            for x in range(NBRICKSX) :
-                for y in range(NBRICKSY) :
-                    self.bricks[x][y].setState(niveau5[y][x])
-                    self.currentLvl = "Niveau 5"
+                    print(LLEVEL[self.currentLvl][y][x])
+                    self.bricks[x][y].setState(LLEVEL[self.currentLvl][y][x])
+        else :
+            return False
+                
         
         #réinitialisation de la balle 
         self.ball = []
@@ -162,4 +148,5 @@ class Univers:
         self.lastTime = 0
         self.counter = 0
         self.startupTime = time.time()
+        return True
 
