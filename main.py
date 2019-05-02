@@ -34,7 +34,7 @@ def waitingMessage(txt,p):
         pygame.event.pump()
         for event in pygame.event.get():
             if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_DELETE :
+                if event.key == pygame.K_y :
                     return True
                 else:
                     return False
