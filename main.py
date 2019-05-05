@@ -7,7 +7,7 @@ from univer import *
 from couleur import *
 import sys
 import time
-#global var
+
 univers = Univers()
 
 def waitingMessage(txt,p):
