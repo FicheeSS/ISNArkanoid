@@ -127,7 +127,7 @@ class Brique :
         elif self.state == 4:
             # en test
             self.univer.add_speed(self.univer)
-            self.visible = 0
+            self.visible = False
         elif self.state == 7 :
             # ne fonctionne pas/ comme celui du dessus  
             self.univer.add_ball(self,(self.x,self.y))
