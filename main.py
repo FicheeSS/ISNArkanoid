@@ -44,9 +44,10 @@ def main():
     gameOn = 1
     while gameOn != 0 :
         win = univers.animate()
+        #message pour l'utilisateur en fin de niveau ou de jeu win represente la victoire ou non du joueur 
         if win  == False :
+            #en test
             if waitingMessage('Vous avez perdu',True) == True:
-                print("recommencer")
                 gameOn = 0
             else :
                 pygame.quit()
