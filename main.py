@@ -3,7 +3,7 @@ Author : Théo Bocquet
 '''
 from globalvar import *
 import pygame
-from univer import *
+from univer import *    
 from couleur import *
 import sys
 import time

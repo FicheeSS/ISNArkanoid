@@ -9,12 +9,12 @@ from univer import *
 class Ball:
     def __init__(self,pos):
         #réglage des paramètres de balle : vitesse, rebond
-        #self.img = pygame.image.fromstring(pygame.image.tostring(pygame.image.load("ball.bmp"),"RGBX"),(BALLSIZE,BALLSIZE),"RGBX")
+        self.img = pygame.image.fromstring(pygame.image.tostring(pygame.image.load("ball.bmp"),"RGBX"),(BALLSIZE,BALLSIZE),"RGBX")
         self.radius = RADIUS
         self.x = pos[0]
         self.y = pos[1]
         self.angle = (300 * math.pi) / 180
-        self.speed = 0.5
+        self.speed = 2
         self.palette = Palette()
         
         
@@ -24,8 +24,8 @@ class Ball:
          
     def dessine (self , screen):
         # dessin de la balle
-        pygame.draw.circle(screen, blanc , (int(self.x),int(self.y)),self.radius)
-        #screen.blit(self.img, (int(self.x - BALLSIZE/2),int(self.y - BALLSIZE/2)))
+        #pygame.draw.circle(screen, blanc , (int(self.x),int(self.y)),self.radius)
+        screen.blit(self.img, (int(self.x - BALLSIZE/2),int(self.y - BALLSIZE/2)))
 
         
     def animate(self):
@@ -102,7 +102,7 @@ class Brique :
         
     def dessine(self , screen):
         if self.visible == True :
-            pygame.draw.rect(screen,self.stateToColor(),(self.x,self.y,WCASE,HCASE)) 
+            #pygame.draw.rect(screen,self.stateToColor(),(self.x,self.y,WCASE,HCASE)) 
             screen.blit(self.img, (int(self.x ),int(self.y)))
 
 
@@ -153,6 +153,7 @@ class Brique :
 
     def setState(self,state):
         # fonction utilisé dans le changement de niveau 
+        self.img = pygame.image.fromstring(pygame.image.tostring(pygame.image.load("briqueblanche.bmp"),"RGBX"),(BRIQUESIZE[0],BRIQUESIZE[1]),"RGBX")
         self.state = state
         if self.state == 0 :
             self.visible = 0
@@ -180,13 +181,15 @@ class Palette:
     def __init__(self):
         self.height = PALETTEHEIGHT
         self.width = PALETTEWIDTH
+        self.img = pygame.image.fromstring(pygame.image.tostring(pygame.image.load("tram.bmp"),"RGBX"),(50,15),"RGBX")
         self.x = int(SCREENSIZE[0]/2 - self.width/2)
         self.y = SCREENSIZE[1]- self.height - 2 
         self.mvtdelta = 1
         self.lastKey = 0 
 
     def dessine(self , screen):
-        pygame.draw.rect(screen,blanc,(self.x,self.y,self.width,self.height))
+        #pygame.draw.rect(screen,blanc,(self.x,self.y,self.width,self.height))
+        screen.blit(self.img, (int(self.x),int(self.y)))
 
     def animate(self):
         # fonction permettant de déplacer la palette avec un etat memoire pour permettre de faire un mouvement continuel
