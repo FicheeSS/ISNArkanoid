@@ -83,6 +83,7 @@ class Ball:
                 self.rebondir()
 class Brique :
     def __init__(self, x, y,state,univer):
+        self.img = pygame.image.fromstring(pygame.image.tostring(pygame.image.load("briqueblanche.bmp"),"RGBX"),(BRIQUESIZE[0],BRIQUESIZE[1]),"RGBX")
         self.x = x
         self.y = y
         # l'etat est definie par le tableau niveau
@@ -93,11 +94,16 @@ class Brique :
             self.visible = False
         #pour debug :
         self.univer = univer
+        for x in range(BRIQUESIZE[0]):
+            for y in range(BRIQUESIZE[1]):
+                if self.img.get_at((x,y)) == blanc :
+                    self.img.set_at((x,y),self.stateToColor())
 
         
     def dessine(self , screen):
         if self.visible == True :
             pygame.draw.rect(screen,self.stateToColor(),(self.x,self.y,WCASE,HCASE)) 
+            screen.blit(self.img, (int(self.x ),int(self.y)))
 
 
     def stateToColor(self):
@@ -152,6 +158,10 @@ class Brique :
             self.visible = 0
         else:
             self.visible = 1
+        for x in range(BRIQUESIZE[0]):
+            for y in range(BRIQUESIZE[1]):
+                if self.img.get_at((x,y)) == blanc :
+                    self.img.set_at((x,y),self.stateToColor())
 
         
         
