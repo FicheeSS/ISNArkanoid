@@ -41,11 +41,13 @@ def waitingMessage(txt,p):
 def main():
     pygame.init()
     univers.init()
-    while 1 != 0 :
+    gameOn = 1
+    while gameOn != 0 :
         win = univers.animate()
         if win  == False :
             if waitingMessage('Vous avez perdu',True) == True:
-                return 0
+                print("recommencer")
+                gameOn = 0
             else :
                 pygame.quit()
                 sys.exit(0)

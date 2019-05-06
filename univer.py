@@ -126,7 +126,7 @@ class Univers:
 
     def add_speed(self):
         #en cour de test
-        Ball.add_speed(Univers.ball[0])
+        self.add_speed()
 
     def levelChange(self):
         #fonction pour changer de niveau
