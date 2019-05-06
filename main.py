@@ -39,9 +39,11 @@ def waitingMessage(txt,p):
                 else:
                     return False
 def main():
+    
     pygame.init()
     univers.init()
     gameOn = 1
+    print("reset")
     while gameOn != 0 :
         win = univers.animate()
         #message pour l'utilisateur en fin de niveau ou de jeu win represente la victoire ou non du joueur 
@@ -60,6 +62,7 @@ def main():
                 sys.exit(0)
             elif endgame == True:
                 waitingMessage('Niveau suivant : Monde  ' + str(univers.currentLvl),False)
+
 
 while 0 != 1:
     main()

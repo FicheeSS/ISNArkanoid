@@ -9,11 +9,12 @@ from univer import *
 class Ball:
     def __init__(self,pos):
         #réglage des paramètres de balle : vitesse, rebond
+        #self.img = pygame.image.fromstring(pygame.image.tostring(pygame.image.load("ball.bmp"),"RGBX"),(BALLSIZE,BALLSIZE),"RGBX")
         self.radius = RADIUS
         self.x = pos[0]
         self.y = pos[1]
         self.angle = (300 * math.pi) / 180
-        self.speed = 1
+        self.speed = 0.5
         self.palette = Palette()
         
         
@@ -24,6 +25,7 @@ class Ball:
     def dessine (self , screen):
         # dessin de la balle
         pygame.draw.circle(screen, blanc , (int(self.x),int(self.y)),self.radius)
+        #screen.blit(self.img, (int(self.x - BALLSIZE/2),int(self.y - BALLSIZE/2)))
 
         
     def animate(self):
@@ -35,8 +37,16 @@ class Ball:
         
 # on calcul l'angle de rebond lors d'une collision de la balle avec un mur
     def rebondir(self):
+        bf = self.angle
+        print("Angle avant rebond "+ str(self.angle))
         RB = 2*math.pi - (math.pi + self.angle)
         self.angle = math.pi/2 - RB + random.uniform(-0.05 , 0.05)
+        if self.angle >= math.pi * 2 :
+            self.angle -= math.pi * 2 
+        print("Angle apres rebond "+ str(self.angle))
+        if int(self.angle*1) == int(bf*1) :
+            print('le meme')
+            
     def rebondirgauche(self):
         RB = 2*math.pi - (math.pi + self.angle)
         self.angle = math.pi + RB + random.uniform(-0.05, 0.05)
@@ -54,16 +64,13 @@ class Ball:
         if (acteur.__class__.__name__ == "Mur") :
             if rebond_mur((self.x,self.y),self.radius) == RIGHTWALL:
                 self.x -= 1
-                print("mur droite")
                 self.rebondirgauche()
                 return True
             elif rebond_mur((self.x,self.y),self.radius) == LEFTWALL:
                 self.x += 1
-                print("mur gauche")
                 self.rebondirgauche()
                 return True
             elif rebond_mur((self.x,self.y),self.radius) == TOPWALL:
-                print("mur haut")
                 self.y += 1 
                 self.rebondir()
                 return True
@@ -71,6 +78,7 @@ class Ball:
                 return False
         if (acteur.__class__.__name__ == "Palette"):
             if colisionPalette(acteur.getPos(),(self.x,self.y),self.radius) == True :
+                print("palette ")
                 self.y -= 1
                 self.rebondir()
 class Brique :

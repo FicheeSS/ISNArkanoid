@@ -134,7 +134,6 @@ class Univers:
             self.currentLvl += 1
             for x in range(NBRICKSX) :
                 for y in range(NBRICKSY) :
-                    print(LLEVEL[self.currentLvl][y][x])
                     self.bricks[x][y].setState(LLEVEL[self.currentLvl][y][x])
         else :
             return False
