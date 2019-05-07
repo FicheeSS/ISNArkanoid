@@ -6,7 +6,7 @@ import time
 from levels import *
 class Univers:
     def __init__(self):
-        print(str(len(LLEVEL)))
+
         self.currentLvl = 0
         #initialisation du timer
         self.mincount = 0
@@ -15,7 +15,6 @@ class Univers:
         self.startupTime = time.time()
         #creation de balle
         self.ball = []
-        self.ball.append(Ball(((int(SCREENSIZE[0]/2 - RADIUS)),int((SCREENSIZE[1] - 50)))))
         
         #creation de la palette
         self.palette = Palette()
@@ -26,6 +25,11 @@ class Univers:
         self.murbas = Mur(((SCREENSIZE[0],0),(SCREENSIZE[0],SCREENSIZE[1])),BOTTOMWALL)
         #creation des briques dans un array 2D
         self.bricks = []
+
+    def init(self):
+        # Création et affichage de la fenêtre graphique
+        self.screen = pygame.display.set_mode(effectiveSize)
+        self.ball.append(Ball(((int(SCREENSIZE[0]/2 - RADIUS)),int((SCREENSIZE[1] - 50)))))
         for i in range(NBRICKSX):
             self.bricks.append([0]*NBRICKSX)
         for x in range(NBRICKSX) :
@@ -35,10 +39,11 @@ class Univers:
                 state = LLEVEL[self.currentLvl][y][x]
                 brique = Brique(sx, sy,state,Univers)
                 self.bricks[x][y] = brique
+        self.screen.fill(noir)
+        pygame.display.flip()
 
-    def init(self):
-        # Création et affichage de la fenêtre graphique
-        self.screen = pygame.display.set_mode(effectiveSize)
+
+        
 
     def texteTemp(self):
         #fonction d'affichage du temps
@@ -73,18 +78,18 @@ class Univers:
 
     def animate(self):
         #verification des collisions pour chaques balles  
-        for i in range(len(self.ball)):
+        for ball in self.ball:
                 #on verifie que la balle est en colision avec un des blocs
             for x in range(NBRICKSX) :
                 for y in range(NBRICKSY) :
                     if self.bricks[x][y].isVisible() == True:
-                        self.ball[i].get_colision(self.bricks[x][y])
+                        ball.get_colision(self.bricks[x][y])
             #on verifie que la balle est en colison avec un des murs
-            self.ball[i].get_colision(self.murhaut)
-            self.ball[i].get_colision(self.murdroit)
-            self.ball[i].get_colision(self.murgauche)
-            self.ball[i].get_colision(self.palette)
-            if (self.ball[i].get_colision(self.murbas) == False):
+            ball.get_colision(self.murhaut)
+            ball.get_colision(self.murdroit)
+            ball.get_colision(self.murgauche)
+            ball.get_colision(self.palette)
+            if (ball.get_colision(self.murbas) == False):
                 #fin du jeu le joueur a perdu
                 return False
         #passage a l'affichage des différents éléments graphiques 
@@ -120,13 +125,10 @@ class Univers:
             for y in range(NBRICKSY) :
                 self.bricks[x][y].dessine(self.screen) 
     
-    def add_balle(self,pos):
+    def add_ball(self,pos):
         #ne marche pas encore 
-        self.ball.append(Ball(pos))
+        Univers.ball.append(Univers.Ball(pos))
 
-    def add_speed(self):
-        #en cour de test
-        Univers.add_speed(Univers.ball[0])
 
     def levelChange(self):
         #fonction pour changer de niveau

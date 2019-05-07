@@ -14,7 +14,7 @@ class Ball:
         self.x = pos[0]
         self.y = pos[1]
         self.angle = (300 * math.pi) / 180
-        self.speed = 2
+        self.speed = 1
         self.palette = Palette()
         
         
@@ -37,15 +37,8 @@ class Ball:
         
 # on calcul l'angle de rebond lors d'une collision de la balle avec un mur
     def rebondir(self):
-        bf = self.angle
-        print("Angle avant rebond "+ str(self.angle))
-        RB = 2*math.pi - (math.pi + self.angle)
+        RB = math.pi - (math.pi + self.angle)
         self.angle = math.pi/2 - RB + random.uniform(-0.05 , 0.05)
-        if self.angle >= math.pi * 2 :
-            self.angle -= math.pi * 2 
-        print("Angle apres rebond "+ str(self.angle))
-        if int(self.angle*1) == int(bf*1) :
-            print('le meme')
             
     def rebondirgauche(self):
         RB = 2*math.pi - (math.pi + self.angle)
@@ -58,7 +51,8 @@ class Ball:
         if (acteur.__class__.__name__ == "Brique") :
             if colisionBrique(acteur.getPos(),(self.x,self.y),self.radius) == True :
                 # on demande a la brique en question de disparaitre
-                acteur.explode() 
+                if acteur.explode() == True :
+                    self.speed += 0.1 
                 self.rebondir()
 
         if (acteur.__class__.__name__ == "Mur") :
@@ -140,7 +134,7 @@ class Brique :
             self.state -= 1 
         elif self.state == 4:
             # en test
-            self.univer.add_speed(self.univer)
+            return True
             self.visible = False
         elif self.state == 7 :
             # ne fonctionne pas/ comme celui du dessus  

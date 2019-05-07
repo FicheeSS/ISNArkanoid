@@ -48,7 +48,6 @@ def main():
         win = univers.animate()
         #message pour l'utilisateur en fin de niveau ou de jeu win represente la victoire ou non du joueur 
         if win  == False :
-            #en test
             if waitingMessage('Vous avez perdu',True) == True:
                 gameOn = 0
             else :
@@ -65,4 +64,6 @@ def main():
 
 
 while 0 != 1:
+    univers.__init__()
     main()
+    
