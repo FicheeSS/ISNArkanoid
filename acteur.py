@@ -36,13 +36,17 @@ class Ball:
         self.y += dy
         
 # on calcul l'angle de rebond lors d'une collision de la balle avec un mur
-    def rebondir(self):
-        RB = math.pi - (math.pi + self.angle)
-        self.angle = math.pi/2 - RB + random.uniform(-0.05 , 0.05)
+    def bounceHor(self):
+        print("Avant rebond " + str(self.angle))
+        self.angle = (self.angle+(math.pi/2 - self.angle )*2 )+ random.uniform(-0.05, 0.05)
+        if self.angle >= 2*math.pi:
+            self.angle -= 2*math.pi
+        print("Après rebond " + str(self.angle))
             
-    def rebondirgauche(self):
-        RB = 2*math.pi - (math.pi + self.angle)
-        self.angle = math.pi + RB + random.uniform(-0.05, 0.05)
+    def bounceVert(self):
+        self.angle = (self.angle+(math.pi - self.angle )*2 )+ random.uniform(-0.05, 0.05)
+        if self.angle >= 2*math.pi:
+            self.angle -= 2*math.pi
     
     
 #on chercher a detecter la collision
@@ -53,20 +57,20 @@ class Ball:
                 # on demande a la brique en question de disparaitre
                 if acteur.explode() == True :
                     self.speed += 0.1 
-                self.rebondir()
+                self.bounceHor()
 
         if (acteur.__class__.__name__ == "Mur") :
             if rebond_mur((self.x,self.y),self.radius) == RIGHTWALL:
                 self.x -= 1
-                self.rebondirgauche()
+                self.bounceVert()
                 return True
             elif rebond_mur((self.x,self.y),self.radius) == LEFTWALL:
                 self.x += 1
-                self.rebondirgauche()
+                self.bounceVert()
                 return True
             elif rebond_mur((self.x,self.y),self.radius) == TOPWALL:
                 self.y += 1 
-                self.rebondir()
+                self.bounceHor()
                 return True
             elif  rebond_mur((self.x,self.y),self.radius) == BOTTOMWALL:
                 return False
@@ -74,7 +78,7 @@ class Ball:
             if colisionPalette(acteur.getPos(),(self.x,self.y),self.radius) == True :
                 print("palette ")
                 self.y -= 1
-                self.rebondir()
+                self.bounceHor()
 class Brique :
     def __init__(self, x, y,state,univer):
         self.img = pygame.image.fromstring(pygame.image.tostring(pygame.image.load("briqueblanche.bmp"),"RGBX"),(BRIQUESIZE[0],BRIQUESIZE[1]),"RGBX")
