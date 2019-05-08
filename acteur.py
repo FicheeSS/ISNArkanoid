@@ -37,11 +37,9 @@ class Ball:
         
 # on calcul l'angle de rebond lors d'une collision de la balle avec un mur
     def bounceHor(self):
-        print("Avant rebond " + str(self.angle))
         self.angle = (self.angle+(math.pi/2 - self.angle )*2 )+ random.uniform(-0.05, 0.05)
         if self.angle >= 2*math.pi:
             self.angle -= 2*math.pi
-        print("Après rebond " + str(self.angle))
             
     def bounceVert(self):
         self.angle = (self.angle+(math.pi - self.angle )*2 )+ random.uniform(-0.05, 0.05)
