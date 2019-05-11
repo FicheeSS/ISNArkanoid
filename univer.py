@@ -28,6 +28,7 @@ class Univers:
 
     def init(self):
         # Création et affichage de la fenêtre graphique
+        self.newObject = []
         self.screen = pygame.display.set_mode(effectiveSize)
         self.ball.append(Ball(((int(SCREENSIZE[0]/2 - RADIUS)),int((SCREENSIZE[1] - 50)))))
         for i in range(NBRICKSX):
@@ -78,6 +79,7 @@ class Univers:
 
     def animate(self):
         #verification des collisions pour chaques balles  
+        print(self.ball)
         for ball in self.ball:
                 #on verifie que la balle est en colision avec un des blocs
             for x in range(NBRICKSX) :
@@ -95,13 +97,13 @@ class Univers:
         #passage a l'affichage des différents éléments graphiques 
         self.screen.fill(noir)
         self.palette.animate()
-        self.palette.dessine(self.screen)
-        #fonction pour redessiner toutes les briques 
-        self.dessineBriques()
+        self.palette.draw(self.screen)
+        #fonction pour redrawr toutes les briques 
+        self.drawBriques()
         for i in range(len(self.ball)):
             #deplacement et dessins des balles 
             self.ball[i].animate()
-            self.ball[i].dessine(self.screen)
+            self.ball[i].draw(self.screen)
 
         if self.checkEnd() == True :
             #si il n'y a plus aucune brique sur le terrain le niveau est fini
@@ -115,20 +117,23 @@ class Univers:
         self.texteTemp()
         #affichage du niveau actuel
         self.texteLvl()
+        if len(self.newObject) > 0:
+            self.ball.append(self.newObject[0])
+            self.newObject = []
         #rafraichissement de l'affichage 
         pygame.display.flip()
         
 
-    def dessineBriques(self):
+    def drawBriques(self):
         #fonction de dessins de toutes les briques sur le terrain  
         for x in range(NBRICKSX) :
             for y in range(NBRICKSY) :
-                self.bricks[x][y].dessine(self.screen) 
+                self.bricks[x][y].draw(self.screen) 
     
     def add_ball(self,pos):
         #ne marche pas encore 
-        Univers.ball.append(Univers.Ball(pos))
-
+        print("add balle")
+        Univers().newObject.append(Ball(pos))
 
     def levelChange(self):
         #fonction pour changer de niveau

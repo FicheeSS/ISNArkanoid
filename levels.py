@@ -104,4 +104,4 @@ niveau5 = [[0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0, 
 
 ]
 #a chaque ajoue de niveau merci de mettre a jour la liste 
-LLEVEL = [niveau1,niveau2,niveau3,niveau4,niveau5]
+LLEVEL = [niveau3,niveau2,niveau3,niveau4,niveau5]

@@ -15,16 +15,14 @@ class Ball:
         self.y = pos[1]
         self.angle = (300 * math.pi) / 180
         self.speed = 1
-        self.palette = Palette()
         
         
     def add_speed(self):
         #ajoute de la vitesse a la balle 
         self.speed += 0.1
          
-    def dessine (self , screen):
+    def draw (self , screen):
         # dessin de la balle
-        #pygame.draw.circle(screen, blanc , (int(self.x),int(self.y)),self.radius)
         screen.blit(self.img, (int(self.x - BALLSIZE/2),int(self.y - BALLSIZE/2)))
 
         
@@ -96,7 +94,7 @@ class Brique :
                     self.img.set_at((x,y),self.stateToColor())
 
         
-    def dessine(self , screen):
+    def draw(self , screen):
         if self.visible == True :
             #pygame.draw.rect(screen,self.stateToColor(),(self.x,self.y,WCASE,HCASE)) 
             screen.blit(self.img, (int(self.x ),int(self.y)))
@@ -131,15 +129,14 @@ class Brique :
         if self.state == 1 :
             self.visible = False
         elif self.state == 2 : 
-            self.state -= 1 
+            self.state = 1 
         elif self.state == 3 :
-            self.state -= 1 
+            self.state = 2
         elif self.state == 4:
             # en test
             return True
             self.visible = False
-        elif self.state == 7 :
-            # ne fonctionne pas/ comme celui du dessus  
+        elif self.state == 5 : 
             self.univer.add_ball(self,(self.x,self.y))
             self.visible = False   
 
@@ -183,8 +180,7 @@ class Palette:
         self.mvtdelta = 1
         self.lastKey = 0 
 
-    def dessine(self , screen):
-        #pygame.draw.rect(screen,blanc,(self.x,self.y,self.width,self.height))
+    def draw(self , screen):
         screen.blit(self.img, (int(self.x),int(self.y)))
 
     def animate(self):
