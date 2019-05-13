@@ -29,9 +29,9 @@ def waitingMessage(txt,p):
     text_size = font.size(txt)
     text_pos = [effectiveSize[0]/2-text_size[0]/2 , effectiveSize[1]/2]
     univers.screen.blit(text_area, text_pos)
-    
     pygame.display.flip()
     time.sleep(.1)
+    #On attends qui l'utilisateur appuie sur une touche 
     while 1 != 0:
         pygame.event.pump()
         for event in pygame.event.get():
@@ -54,6 +54,7 @@ def main():
                 pygame.quit()
                 sys.exit(0)
         elif win == True :
+        #Si le joueuer a fin le niveau on change le niveau
             endgame = univers.levelChange()
             if  endgame == False:
                 waitingMessage('Bravo vous avez gagnez !',False)

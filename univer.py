@@ -6,6 +6,7 @@ import time
 from levels import *
 class Univers:
     def __init__(self):
+        #Création des conteurs
         self.score = 0
         self.currentLvl = 0
         #initialisation du timer
@@ -28,10 +29,11 @@ class Univers:
 
     def init(self):
         # Création et affichage de la fenêtre graphique
-            
         self.newObject = []
         self.screen = pygame.display.set_mode(effectiveSize)
+        #création de la balle 
         self.ball.append(Ball(((int(SCREENSIZE[0]/2 - RADIUS)),int((SCREENSIZE[1] - 50)))))
+        #création de la liste des Bricks
         for i in range(NBRICKSX):
             self.bricks.append([0]*NBRICKSX)
         for x in range(NBRICKSX) :
@@ -41,6 +43,7 @@ class Univers:
                 state = LLEVEL[self.currentLvl][y][x]
                 brick = Brick(sx, sy,state,Univers)
                 self.bricks[x][y] = brick
+        #On rénitialise l'écran
         self.screen.fill(noir)
         pygame.display.flip()
 
@@ -59,6 +62,7 @@ class Univers:
         text_pos = [effectiveSize[0]/2-text_size[0]/2, effectiveSize[1]-text_size[1]]
         # ancrage de la surface contenant le texte dans la fenêtre
         self.screen.blit(text_area, text_pos)
+
     def textescore(self):
         tmp = str(self.score)
         font = pygame.font.SysFont("verdana", 18, bold=False, italic=False)  
@@ -80,6 +84,7 @@ class Univers:
  
 
     def checkEnd(self):
+        #On calcul si il reste des briques sur le terrain 
         for x in range(NBRICKSX) :
             for y in range(NBRICKSY) :
                 if self.bricks[x][y].isVisible() == 1 : 
@@ -106,7 +111,7 @@ class Univers:
         self.screen.fill(noir)
         self.palette.animate()
         self.palette.draw(self.screen)
-        #fonction pour redrawr toutes les briques 
+        #fonction pour dessiner toutes les briques 
         self.drawBriques()
         for i in range(len(self.ball)):
             #deplacement et dessins des balles 
@@ -131,7 +136,6 @@ class Univers:
         self.textescore()
         #rafraichissement de l'affichage 
         pygame.display.flip()
-        
 
     def drawBriques(self):
         #fonction de dessins de toutes les briques sur le terrain  

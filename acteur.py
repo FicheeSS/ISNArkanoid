@@ -31,12 +31,12 @@ class Ball:
         
 # on calcul l'angle de rebond lors d'une collision de la balle avec un mur
     def bounceHor(self):
-        self.angle = (self.angle+(math.pi/2 - self.angle )*2 )+ random.uniform(-0.05, 0.05)
+        self.angle = -self.angle - math.pi + random.uniform(-0.05, 0.05)
         if self.angle >= 2*math.pi:
             self.angle -= 2*math.pi
             
     def bounceVert(self):
-        self.angle = (self.angle+(math.pi - self.angle )*2 )+ random.uniform(-0.05, 0.05)
+        self.angle = -self.angle+ random.uniform(-0.05, 0.05)
         if self.angle >= 2*math.pi:
             self.angle -= 2*math.pi
     
@@ -92,12 +92,13 @@ class Brick :
             self.visible = True
         else:
             self.visible = False
-        #pour debug :
         self.univer = univer
-        for x in range(BRICKSIZE[0]):
-            for y in range(BRICKSIZE[1]):
-                if self.img.get_at((x,y)) == blanc :
-                    self.img.set_at((x,y),self.stateToColor())
+        #création des images de couleur dependante de state 
+        if self.visible != 0 :
+            for x in range(BRICKSIZE[0]):
+                for y in range(BRICKSIZE[1]):
+                    if self.img.get_at((x,y)) == blanc :
+                        self.img.set_at((x,y),self.stateToColor())
 
         
     def draw(self , screen):
