@@ -14,12 +14,8 @@ class Ball:
         self.x = pos[0]
         self.y = pos[1]
         self.angle = (300 * math.pi) / 180
-        self.speed = 1
+        self.speed = 0.5
         
-        
-    def add_speed(self):
-        #ajoute de la vitesse a la balle 
-        self.speed += 0.1
          
     def draw (self , screen):
         # dessin de la balle
@@ -48,36 +44,36 @@ class Ball:
 #on chercher a detecter la collision
     def get_colision(self,acteur):
         #pour chaque acteur on effectue la recherche de la colision 
-        if (acteur.__class__.__name__ == "Brique") :
-            if colisionBrique(acteur.getPos(),(self.x,self.y),self.radius) == True :
-                # on demande a la brique en question de disparaitre
+        if (acteur.__class__.__name__ == "Brick") :
+            if colisionBrick(acteur.getPos(),(self.x,self.y),self.radius) == True :
+                # on demande a la Brick en question de disparaitre
                 if acteur.explode() == True :
                     self.speed += 0.1 
                 self.bounceHor()
 
         if (acteur.__class__.__name__ == "Mur") :
-            if rebond_mur((self.x,self.y),self.radius) == RIGHTWALL:
+            if colisionWall((self.x,self.y),self.radius) == RIGHTWALL:
                 self.x -= 1
                 self.bounceVert()
                 return True
-            elif rebond_mur((self.x,self.y),self.radius) == LEFTWALL:
+            elif colisionWall((self.x,self.y),self.radius) == LEFTWALL:
                 self.x += 1
                 self.bounceVert()
                 return True
-            elif rebond_mur((self.x,self.y),self.radius) == TOPWALL:
+            elif colisionWall((self.x,self.y),self.radius) == TOPWALL:
                 self.y += 1 
                 self.bounceHor()
                 return True
-            elif  rebond_mur((self.x,self.y),self.radius) == BOTTOMWALL:
+            elif colisionWall((self.x,self.y),self.radius) == BOTTOMWALL:
                 return False
         if (acteur.__class__.__name__ == "Palette"):
             if colisionPalette(acteur.getPos(),(self.x,self.y),self.radius) == True :
                 print("palette ")
                 self.y -= 1
                 self.bounceHor()
-class Brique :
+class Brick :
     def __init__(self, x, y,state,univer):
-        self.img = pygame.image.fromstring(pygame.image.tostring(pygame.image.load("briqueblanche.bmp"),"RGBX"),(BRIQUESIZE[0],BRIQUESIZE[1]),"RGBX")
+        self.img = pygame.image.fromstring(pygame.image.tostring(pygame.image.load("briqueblanche.bmp"),"RGBX"),(BRICKSIZE[0],BRICKSIZE[1]),"RGBX")
         self.x = x
         self.y = y
         # l'etat est definie par le tableau niveau
@@ -88,8 +84,8 @@ class Brique :
             self.visible = False
         #pour debug :
         self.univer = univer
-        for x in range(BRIQUESIZE[0]):
-            for y in range(BRIQUESIZE[1]):
+        for x in range(BRICKSIZE[0]):
+            for y in range(BRICKSIZE[1]):
                 if self.img.get_at((x,y)) == blanc :
                     self.img.set_at((x,y),self.stateToColor())
 
@@ -120,18 +116,27 @@ class Brique :
         if n == 7:
             return mediumvioletred
 
+
     def getPos(self):
         #envoie un tuple de la postion en x et y 
         return(self.x,self.y)
+    def changeColor(self,new):
+        oldColor = self.stateToColor()
+        self.state = new
+        for x in range(BRICKSIZE[0]):
+            for y in range(BRICKSIZE[1]):
+                if self.img.get_at((x,y)) == oldColor :
+                    self.img.set_at((x,y),self.stateToColor())
+        
 
     def explode (self):
         # on effectue les actions correspondantes a l'état de la balle 
         if self.state == 1 :
             self.visible = False
         elif self.state == 2 : 
-            self.state = 1 
+            self.changeColor(1)
         elif self.state == 3 :
-            self.state = 2
+            self.changeColor(2)
         elif self.state == 4:
             # en test
             return True
@@ -141,19 +146,19 @@ class Brique :
             self.visible = False   
 
     def isVisible(self):
-        # permet de savoir si la brique est visible pour par exemple savoir si il faut calculer la colision
+        # permet de savoir si la Brick est visible pour par exemple savoir si il faut calculer la colision
         return self.visible
 
     def setState(self,state):
         # fonction utilisé dans le changement de niveau 
-        self.img = pygame.image.fromstring(pygame.image.tostring(pygame.image.load("briqueblanche.bmp"),"RGBX"),(BRIQUESIZE[0],BRIQUESIZE[1]),"RGBX")
+        self.img = pygame.image.fromstring(pygame.image.tostring(pygame.image.load("briqueblanche.bmp"),"RGBX"),(BRICKSIZE[0],BRICKSIZE[1]),"RGBX")
         self.state = state
         if self.state == 0 :
             self.visible = 0
         else:
             self.visible = 1
-        for x in range(BRIQUESIZE[0]):
-            for y in range(BRIQUESIZE[1]):
+        for x in range(BRICKSIZE[0]):
+            for y in range(BRICKSIZE[1]):
                 if self.img.get_at((x,y)) == blanc :
                     self.img.set_at((x,y),self.stateToColor())
 

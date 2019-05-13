@@ -28,6 +28,7 @@ class Univers:
 
     def init(self):
         # Création et affichage de la fenêtre graphique
+            
         self.newObject = []
         self.screen = pygame.display.set_mode(effectiveSize)
         self.ball.append(Ball(((int(SCREENSIZE[0]/2 - RADIUS)),int((SCREENSIZE[1] - 50)))))
@@ -38,8 +39,8 @@ class Univers:
                 sx = (x*WCASE)+GCASE*(x+1)
                 sy = (y*HCASE)+GCASE*(y+1)
                 state = LLEVEL[self.currentLvl][y][x]
-                brique = Brique(sx, sy,state,Univers)
-                self.bricks[x][y] = brique
+                brick = Brick(sx, sy,state,Univers)
+                self.bricks[x][y] = brick
         self.screen.fill(noir)
         pygame.display.flip()
 
@@ -79,7 +80,6 @@ class Univers:
 
     def animate(self):
         #verification des collisions pour chaques balles  
-        print(self.ball)
         for ball in self.ball:
                 #on verifie que la balle est en colision avec un des blocs
             for x in range(NBRICKSX) :
@@ -133,7 +133,7 @@ class Univers:
     def add_ball(self,pos):
         #ne marche pas encore 
         print("add balle")
-        Univers().newObject.append(Ball(pos))
+        #Univers().newObject.append(Ball(pos))
 
     def levelChange(self):
         #fonction pour changer de niveau

@@ -1,7 +1,7 @@
 import math  
 from globalvar import *
 from univer import *
-def rebond_mur(pos,radius):
+def colisionWall(pos,radius):
     if pos[0]-radius <= 0 :
         return LEFTWALL
     elif pos[0]+radius >= SCREENSIZE[0]:
@@ -17,7 +17,7 @@ def colisionPalette(pal,pos,radius):
         return True
     else:
         return False
-def colisionBrique(bpos,c,radius):
+def colisionBrick(bpos,c,radius):
     if c[0]+radius >= bpos[0] and c[0]+radius <= bpos[0]+WCASE :
         if c[1]+radius >= bpos[1] and c[1]+radius <= bpos[1]+HCASE:
             return True 
