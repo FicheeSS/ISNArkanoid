@@ -47,9 +47,19 @@ class Ball:
         if (acteur.__class__.__name__ == "Brick") :
             if colisionBrick(acteur.getPos(),(self.x,self.y),self.radius) == True :
                 # on demande a la Brick en question de disparaitre
-                if acteur.explode() == True :
-                    self.speed += 0.1 
-                self.bounceHor()
+                brick = acteur.explode()  
+                print(brick)
+                if brick == True :
+                    if self.speed <= 1 :
+                        self.speed += 0.05
+                        self.bounceHor()
+                        return 20
+                else:
+                    self.bounceHor()
+                    return brick
+                    
+            else :
+                return 0
 
         if (acteur.__class__.__name__ == "Mur") :
             if colisionWall((self.x,self.y),self.radius) == RIGHTWALL:
@@ -102,9 +112,9 @@ class Brick :
         if n == 0:
             return noir
         if n == 1:
-            return green
+            return limegreen
         if n == 2:
-            return mediumseagreen 
+            return green
         if n == 3:
             return darkseagreen
         if n == 4:
@@ -133,17 +143,22 @@ class Brick :
         # on effectue les actions correspondantes a l'état de la balle 
         if self.state == 1 :
             self.visible = False
+            return 10
         elif self.state == 2 : 
             self.changeColor(1)
+            return 5
         elif self.state == 3 :
             self.changeColor(2)
+            return 5
         elif self.state == 4:
-            # en test
-            return True
             self.visible = False
+            return True            
         elif self.state == 5 : 
             self.univer.add_ball(self,(self.x,self.y))
-            self.visible = False   
+            self.visible = False
+            return 20
+        else :
+            return 0
 
     def isVisible(self):
         # permet de savoir si la Brick est visible pour par exemple savoir si il faut calculer la colision

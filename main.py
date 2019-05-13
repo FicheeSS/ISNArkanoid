@@ -60,7 +60,7 @@ def main():
                 pygame.quit()
                 sys.exit(0)
             elif endgame == True:
-                waitingMessage('Niveau suivant : Monde  ' + str(univers.currentLvl),False)
+                waitingMessage('Niveau suivant : Monde ' + str(univers.currentLvl),False)
 
 
 while 0 != 1:

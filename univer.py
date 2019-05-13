@@ -6,7 +6,7 @@ import time
 from levels import *
 class Univers:
     def __init__(self):
-
+        self.score = 0
         self.currentLvl = 0
         #initialisation du timer
         self.mincount = 0
@@ -59,7 +59,15 @@ class Univers:
         text_pos = [effectiveSize[0]/2-text_size[0]/2, effectiveSize[1]-text_size[1]]
         # ancrage de la surface contenant le texte dans la fenêtre
         self.screen.blit(text_area, text_pos)
-
+    def textescore(self):
+        tmp = str(self.score)
+        font = pygame.font.SysFont("verdana", 18, bold=False, italic=False)  
+        text_area = font.render(tmp, 1, blanc)
+        text_size = font.size(tmp)
+        text_pos = [effectiveSize[0]/3-text_size[0]*2, effectiveSize[1]-text_size[1]]
+        # ancrage de la surface contenant le texte dans la fenêtre
+        self.screen.blit(text_area, text_pos)
+        
     def texteLvl(self):
         #Fonction d'affichage du niveau en cour
         lvl = "Niveau " + str(self.currentLvl+1)
@@ -85,7 +93,7 @@ class Univers:
             for x in range(NBRICKSX) :
                 for y in range(NBRICKSY) :
                     if self.bricks[x][y].isVisible() == True:
-                        ball.get_colision(self.bricks[x][y])
+                        self.score += ball.get_colision(self.bricks[x][y])
             #on verifie que la balle est en colison avec un des murs
             ball.get_colision(self.murhaut)
             ball.get_colision(self.murdroit)
@@ -120,6 +128,7 @@ class Univers:
         if len(self.newObject) > 0:
             self.ball.append(self.newObject[0])
             self.newObject = []
+        self.textescore()
         #rafraichissement de l'affichage 
         pygame.display.flip()
         
