@@ -31,6 +31,7 @@ class Ball:
         
 # on calcul l'angle de rebond lors d'une collision de la balle avec un mur
     def bounceHor(self):
+        #Voir calcul dans le schéma dans le drive
         self.angle = -self.angle - math.pi + random.uniform(-0.05, 0.05)
         if self.angle >= 2*math.pi:
             self.angle -= 2*math.pi
@@ -81,6 +82,7 @@ class Ball:
                 print("palette ")
                 self.y -= 1
                 self.bounceHor()
+
 class Brick :
     def __init__(self, x, y,state,univer):
         self.img = pygame.image.fromstring(pygame.image.tostring(pygame.image.load("briqueblanche.bmp"),"RGBX"),(BRICKSIZE[0],BRICKSIZE[1]),"RGBX")
@@ -131,7 +133,9 @@ class Brick :
     def getPos(self):
         #envoie un tuple de la postion en x et y 
         return(self.x,self.y)
+
     def changeColor(self,new):
+        #permet de faire changer la couleur de l'image en mémoire de la brique d'après le nouvel état de la brique  
         oldColor = self.stateToColor()
         self.state = new
         for x in range(BRICKSIZE[0]):
@@ -146,6 +150,7 @@ class Brick :
             self.visible = False
             return 10
         elif self.state == 2 : 
+            #la brique à un ou deux niveaux de vie
             self.changeColor(1)
             return 5
         elif self.state == 3 :
@@ -173,6 +178,7 @@ class Brick :
             self.visible = 0
         else:
             self.visible = 1
+        #on remplace le blanc des briques d'origine par leurs nouvelles assignations 
         for x in range(BRICKSIZE[0]):
             for y in range(BRICKSIZE[1]):
                 if self.img.get_at((x,y)) == blanc :

@@ -6,6 +6,7 @@ import time
 from levels import *
 class Univers:
     def __init__(self):
+        self.execTime = 0
         #Création des conteurs
         self.score = 0
         self.currentLvl = 0
@@ -47,8 +48,6 @@ class Univers:
         self.screen.fill(noir)
         pygame.display.flip()
 
-
-        
 
     def texteTemp(self):
         #fonction d'affichage du temps
@@ -92,6 +91,7 @@ class Univers:
         return True
 
     def animate(self):
+        self.execTime = time.time()
         #verification des collisions pour chaques balles  
         for ball in self.ball:
                 #on verifie que la balle est en colision avec un des blocs
@@ -111,7 +111,7 @@ class Univers:
         self.screen.fill(noir)
         self.palette.animate()
         self.palette.draw(self.screen)
-        #fonction pour dessiner toutes les briques 
+        #fonction pour dessiner toutes les briques   
         self.drawBriques()
         for i in range(len(self.ball)):
             #deplacement et dessins des balles 
@@ -130,12 +130,15 @@ class Univers:
         self.texteTemp()
         #affichage du niveau actuel
         self.texteLvl()
+        #en test 
         if len(self.newObject) > 0:
             self.ball.append(self.newObject[0])
             self.newObject = []
         self.textescore()
         #rafraichissement de l'affichage 
         pygame.display.flip()
+        self.execTime -= time.time()
+        print(int(-self.execTime*100000))
 
     def drawBriques(self):
         #fonction de dessins de toutes les briques sur le terrain  
