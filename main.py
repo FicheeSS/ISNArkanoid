@@ -41,7 +41,6 @@ def waitingMessage(txt,p):
                 else:
                     return False
 def main():
-    pygame.init()
     univers.init()
     gameOn = 1
     while gameOn != 0 :

@@ -14,7 +14,9 @@ class Ball:
         self.x = pos[0]
         self.y = pos[1]
         self.angle = (300 * math.pi) / 180
-        self.speed = 0.5
+        self.speed = 1
+        self.sound = Sound()
+
         
          
     def draw (self , screen):
@@ -49,14 +51,15 @@ class Ball:
             if colisionBrick(acteur.getPos(),(self.x,self.y),self.radius) == True :
                 # on demande a la Brick en question de disparaitre
                 brick = acteur.explode()  
-                print(brick)
                 if brick == True :
                     if self.speed <= 1 :
                         self.speed += 0.05
                         self.bounceHor()
+                        self.sound.playBounce()
                         return 20
                 else:
                     self.bounceHor()
+                    self.sound.playBounce()
                     return brick
                     
             else :
@@ -66,14 +69,17 @@ class Ball:
             if colisionWall((self.x,self.y),self.radius) == RIGHTWALL:
                 self.x -= 1
                 self.bounceVert()
+                self.sound.playBounce()
                 return True
             elif colisionWall((self.x,self.y),self.radius) == LEFTWALL:
                 self.x += 1
                 self.bounceVert()
+                self.sound.playBounce()
                 return True
             elif colisionWall((self.x,self.y),self.radius) == TOPWALL:
                 self.y += 1 
                 self.bounceHor()
+                self.sound.playBounce()
                 return True
             elif colisionWall((self.x,self.y),self.radius) == BOTTOMWALL:
                 return False
@@ -81,6 +87,7 @@ class Ball:
             if colisionPalette(acteur.getPos(),(self.x,self.y),self.radius) == True :
                 print("palette ")
                 self.y -= 1
+                self.sound.playBounce()
                 self.bounceHor()
 
 class Brick :
@@ -238,3 +245,20 @@ class Palette:
     def getPos(self):
         # colision 
         return (self.x,self.y)
+
+class Sound:
+    def __init__(self):
+        pygame.mixer.init()
+        self.BackgroundMusic = pygame.mixer.Sound(BACKGROUNDMUSICLOC)
+        self.BounceSound = pygame.mixer.Sound(BOUNCESOUNDLOC)
+
+    def playMusic(self):
+        pygame.mixer.Channel(1).play(self.BackgroundMusic,-1)
+
+    def playBounce(self):
+        pygame.mixer.Channel(2).play(self.BounceSound)
+
+    def stopMusic(self):
+        pygame.mixer.Channel(1).stop()
+
+        

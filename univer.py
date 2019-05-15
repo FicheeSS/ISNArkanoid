@@ -27,8 +27,11 @@ class Univers:
         self.murbas = Mur(((SCREENSIZE[0],0),(SCREENSIZE[0],SCREENSIZE[1])),BOTTOMWALL)
         #creation des briques dans un array 2D
         self.bricks = []
+        self.sound = Sound()
+        pygame.init()
 
     def init(self):
+        self.sound.playMusic()
         # Création et affichage de la fenêtre graphique
         self.newObject = []
         self.screen = pygame.display.set_mode(effectiveSize)
@@ -91,7 +94,6 @@ class Univers:
         return True
 
     def animate(self):
-        self.execTime = time.time()
         #verification des collisions pour chaques balles  
         for ball in self.ball:
                 #on verifie que la balle est en colision avec un des blocs
@@ -105,6 +107,7 @@ class Univers:
             ball.get_colision(self.murgauche)
             ball.get_colision(self.palette)
             if (ball.get_colision(self.murbas) == False):
+                self.sound.stopMusic()
                 #fin du jeu le joueur a perdu
                 return False
         #passage a l'affichage des différents éléments graphiques 
@@ -119,6 +122,7 @@ class Univers:
             self.ball[i].draw(self.screen)
 
         if self.checkEnd() == True :
+            self.sound.stopMusic()
             #si il n'y a plus aucune brique sur le terrain le niveau est fini
             return True
 
@@ -138,8 +142,7 @@ class Univers:
         #rafraichissement de l'affichage 
         pygame.display.flip()
         self.execTime -= time.time()
-        print(int(-self.execTime*100000))
-
+        
     def drawBriques(self):
         #fonction de dessins de toutes les briques sur le terrain  
         for x in range(NBRICKSX) :
@@ -170,5 +173,6 @@ class Univers:
         self.lastTime = 0
         self.counter = 0
         self.startupTime = time.time()
+        self.sound.playMusic()
         return True
 

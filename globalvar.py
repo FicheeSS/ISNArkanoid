@@ -21,3 +21,6 @@ BRICKSIZE = (WCASE,HCASE)
 
 l_KEY = 1
 r_KEY = 2
+
+BACKGROUNDMUSICLOC = "./music/main.ogg"
+BOUNCESOUNDLOC = "./music/bounce.ogg"
