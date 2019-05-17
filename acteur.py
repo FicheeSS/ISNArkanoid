@@ -45,12 +45,12 @@ class Ball:
     
     
 #on chercher a detecter la collision
-    def get_colision(self,acteur):
+    def get_colision(self,acteur,univer):
         #pour chaque acteur on effectue la recherche de la colision 
         if (acteur.__class__.__name__ == "Brick") :
             if colisionBrick(acteur.getPos(),(self.x,self.y),self.radius) == True :
                 # on demande a la Brick en question de disparaitre
-                brick = acteur.explode()  
+                brick = acteur.explode(univer)  
                 if brick == True :
                     if self.speed <= 1 :
                         self.speed += 0.05
@@ -90,6 +90,7 @@ class Ball:
                 self.sound.playBounce()
                 self.bounceHor()
 
+
 class Brick :
     def __init__(self, x, y,state,univer):
         self.img = pygame.image.fromstring(pygame.image.tostring(pygame.image.load("briqueblanche.bmp"),"RGBX"),(BRICKSIZE[0],BRICKSIZE[1]),"RGBX")
@@ -101,7 +102,6 @@ class Brick :
             self.visible = True
         else:
             self.visible = False
-        self.univer = univer
         #création des images de couleur dependante de state 
         if self.visible != 0 :
             for x in range(BRICKSIZE[0]):
@@ -151,8 +151,8 @@ class Brick :
                     self.img.set_at((x,y),self.stateToColor())
         
 
-    def explode (self):
-        # on effectue les actions correspondantes a l'état de la balle 
+    def explode (self,univer):
+        # on effectue les actions correspondantes a l'état de la brick 
         if self.state == 1 :
             self.visible = False
             return 10
@@ -167,7 +167,7 @@ class Brick :
             self.visible = False
             return True            
         elif self.state == 5 : 
-            self.univer.add_ball(self,(self.x,self.y))
+            univer.add_ball(univer,(self.x,self.y))
             self.visible = False
             return 20
         else :

@@ -17,7 +17,6 @@ class Univers:
         self.startupTime = time.time()
         #creation de balle
         self.ball = []
-        
         #creation de la palette
         self.palette = Palette()
         #creation des murs
@@ -100,16 +99,19 @@ class Univers:
             for x in range(NBRICKSX) :
                 for y in range(NBRICKSY) :
                     if self.bricks[x][y].isVisible() == True:
-                        self.score += ball.get_colision(self.bricks[x][y])
+                        self.score += ball.get_colision(self.bricks[x][y],Univers)
             #on verifie que la balle est en colison avec un des murs
-            ball.get_colision(self.murhaut)
-            ball.get_colision(self.murdroit)
-            ball.get_colision(self.murgauche)
-            ball.get_colision(self.palette)
-            if (ball.get_colision(self.murbas) == False):
+            ball.get_colision(self.murhaut,Univers)
+            ball.get_colision(self.murdroit,Univers)
+            ball.get_colision(self.murgauche,Univers)
+            ball.get_colision(self.palette,Univers)
+            end = ball.get_colision(self.murbas,Univers)
+            if end == False and len(self.ball) <= 1:
                 self.sound.stopMusic()
                 #fin du jeu le joueur a perdu
                 return False
+            elif end == False :
+                self.ball.remove(ball)
         #passage a l'affichage des différents éléments graphiques 
         self.screen.fill(noir)
         self.palette.animate()
@@ -142,7 +144,7 @@ class Univers:
         #rafraichissement de l'affichage 
         pygame.display.flip()
         self.execTime -= time.time()
-        
+
     def drawBriques(self):
         #fonction de dessins de toutes les briques sur le terrain  
         for x in range(NBRICKSX) :
@@ -152,7 +154,7 @@ class Univers:
     def add_ball(self,pos):
         #ne marche pas encore 
         print("add balle")
-        #Univers().newObject.append(Ball(pos))
+        self.newObject.append(Ball(pos))
 
     def levelChange(self):
         #fonction pour changer de niveau
@@ -163,8 +165,6 @@ class Univers:
                     self.bricks[x][y].setState(LLEVEL[self.currentLvl][y][x])
         else :
             return False
-                
-        
         #réinitialisation de la balle 
         self.ball = []
         self.ball.append(Ball(((int(SCREENSIZE[0]/2 - RADIUS)),int((SCREENSIZE[1] - 50)))))
