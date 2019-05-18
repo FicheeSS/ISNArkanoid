@@ -100,7 +100,7 @@ class Univers:
                 for y in range(NBRICKSY) :
                     if self.bricks[x][y].isVisible() == True:
                         self.score += ball.get_colision(self.bricks[x][y],Univers)
-            #on verifie que la balle est en colison avec un des murs
+            #on verifie que la balle est en collision avec un des murs
             ball.get_colision(self.murhaut,Univers)
             ball.get_colision(self.murdroit,Univers)
             ball.get_colision(self.murgauche,Univers)
@@ -129,11 +129,7 @@ class Univers:
             return True
 
         #timer         
-        self.lastTime = (time.time() - self.startupTime) 
-        if int(self.lastTime) >= 1 :
-                self.startupTime += 1
-                self.counter += 1 
-        self.texteTemp()
+        self.update_timer()
         #affichage du niveau actuel
         self.texteLvl()
         #en test 
@@ -145,6 +141,12 @@ class Univers:
         pygame.display.flip()
         self.execTime -= time.time()
 
+    def update_timer(self):
+        self.lastTime = (time.time() - self.startupTime) 
+        if int(self.lastTime) >= 1 :
+                self.startupTime += 1
+                self.counter += 1 
+        self.texteTemp()
     def drawBriques(self):
         #fonction de dessins de toutes les briques sur le terrain  
         for x in range(NBRICKSX) :
