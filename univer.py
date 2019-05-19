@@ -28,9 +28,6 @@ class Univers:
         self.bricks = []
         self.sound = Sound()
         pygame.init()
-
-    def init(self):
-        self.sound.playMusic()
         # Création et affichage de la fenêtre graphique
         self.newObject = []
         self.screen = pygame.display.set_mode(effectiveSize)
@@ -49,6 +46,7 @@ class Univers:
         #On rénitialise l'écran
         self.screen.fill(noir)
         pygame.display.flip()
+        self.sound.playMusic()
 
 
     def texteTemp(self):
@@ -156,7 +154,7 @@ class Univers:
     def add_ball(self,pos):
         #ne marche pas encore 
         print("add balle")
-        self.newObject.append(Ball(pos))
+        #self.newObject.append(Ball(pos))
 
     def levelChange(self):
         #fonction pour changer de niveau

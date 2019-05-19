@@ -41,7 +41,6 @@ def waitingMessage(txt,p):
                 else:
                     return False
 def main():
-    univers.init()
     gameOn = 1
     while gameOn != 0 :
         win = univers.animate()
@@ -51,7 +50,8 @@ def main():
                 gameOn = 0
             else :
                 pygame.quit()
-                sys.exit(0)
+                
+                
         elif win == True :
         #Si le joueuer a fin le niveau on change le niveau
             endgame = univers.levelChange()

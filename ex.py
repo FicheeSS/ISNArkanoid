@@ -1,9 +1,9 @@
 # sert juste pour faire des captures d'écran pour les diapos
-var = 1
+
 
 class exemple :
 
-    def __init__ (self):
+    def __init__ (self,var):
         self.variableMembreTxt = var
         self.variableMembreList = [0,0]
     

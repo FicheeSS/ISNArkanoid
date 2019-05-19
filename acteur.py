@@ -1,6 +1,7 @@
 from globalvar import *
 import pygame
 import math
+import sys 
 import random
 from collision import *
 from couleur import *
@@ -54,9 +55,10 @@ class Ball:
                 if brick == True :
                     if self.speed <= 1 :
                         self.speed += 0.05
-                        self.bounceHor()
-                        self.sound.playBounce()
-                        return 20
+                    self.bounceHor()
+                    self.sound.playBounce()
+                    return 20
+
                 else:
                     self.bounceHor()
                     self.sound.playBounce()
@@ -89,6 +91,8 @@ class Ball:
                 self.y -= 1
                 self.sound.playBounce()
                 self.bounceHor()
+        """else :
+            sys.exit("Unknow class "+ acteur.__class__.__name__)"""
 
 
 class Brick :
