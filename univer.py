@@ -6,6 +6,9 @@ import time
 from levels import *
 class Univers:
     def __init__(self):
+        pygame.init()
+        self.screen = pygame.display.set_mode(effectiveSize)
+        self.waitingMessage()
         self.execTime = 0
         #Création des conteurs
         self.score = 0
@@ -27,10 +30,9 @@ class Univers:
         #creation des briques dans un array 2D
         self.bricks = []
         self.sound = Sound()
-        pygame.init()
         # Création et affichage de la fenêtre graphique
         self.newObject = []
-        self.screen = pygame.display.set_mode(effectiveSize)
+        
         #création de la balle 
         self.ball.append(Ball(((int(SCREENSIZE[0]/2 - RADIUS)),int((SCREENSIZE[1] - 50)))))
         #création de la liste des Bricks
@@ -48,6 +50,16 @@ class Univers:
         pygame.display.flip()
         self.sound.playMusic()
 
+
+    def waitingMessage(self):
+        self.screen.fill(noir)
+        txt = "Chargement ..."
+        font = pygame.font.SysFont("verdana", 18, bold=False, italic=False)
+        text_area = font.render(txt, 1, blanc)
+        text_size = font.size(txt)
+        text_pos = [effectiveSize[0]/2-text_size[0]/2 , effectiveSize[1]/2]
+        self.screen.blit(text_area, text_pos)
+        pygame.display.flip()
 
     def texteTemp(self):
         #fonction d'affichage du temps
