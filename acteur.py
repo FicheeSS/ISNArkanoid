@@ -171,7 +171,7 @@ class Brick :
             self.visible = False
             return True            
         elif self.state == 5 : 
-            univer.add_ball(univer,(self.x,self.y))
+            univer.add_ball((self.x,self.y))
             self.visible = False
             return 20
         else :

@@ -109,13 +109,13 @@ class Univers:
             for x in range(NBRICKSX) :
                 for y in range(NBRICKSY) :
                     if self.bricks[x][y].isVisible() == True:
-                        self.score += ball.get_colision(self.bricks[x][y],Univers)
+                        self.score += ball.get_colision(self.bricks[x][y],self)
             #on verifie que la balle est en collision avec un des murs
-            ball.get_colision(self.murhaut,Univers)
-            ball.get_colision(self.murdroit,Univers)
-            ball.get_colision(self.murgauche,Univers)
-            ball.get_colision(self.palette,Univers)
-            end = ball.get_colision(self.murbas,Univers)
+            ball.get_colision(self.murhaut,self)
+            ball.get_colision(self.murdroit,self)
+            ball.get_colision(self.murgauche,self)
+            ball.get_colision(self.palette,self)
+            end = ball.get_colision(self.murbas,self)
             if end == False and len(self.ball) <= 1:
                 self.sound.stopMusic()
                 #fin du jeu le joueur a perdu
@@ -166,7 +166,7 @@ class Univers:
     def add_ball(self,pos):
         #ne marche pas encore 
         print("add balle")
-        #self.newObject.append(Ball(pos))
+        self.newObject.append(Ball(pos))
 
     def levelChange(self):
         #fonction pour changer de niveau

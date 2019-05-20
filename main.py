@@ -37,13 +37,7 @@ def waitingMessage(txt,p):
         for event in pygame.event.get():
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_y :
-                    univers.screen.fill(noir)
-                    txt = "Chargement ..."
-                    text_area = font.render(txt, 1, blanc)
-                    text_size = font.size(txt)
-                    text_pos = [effectiveSize[0]/2-text_size[0]/2 , effectiveSize[1]/2]
-                    univers.screen.blit(text_area, text_pos)
-                    pygame.display.flip()
+                    univers.waitingMessage()
                     return True
                 else:
                     return False
