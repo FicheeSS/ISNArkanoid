@@ -6,6 +6,9 @@ import time
 from levels import *
 class Univers:
     def __init__(self):
+        self.init()
+
+    def init(self):
         pygame.init()
         self.screen = pygame.display.set_mode(effectiveSize)
         self.waitingMessage()
@@ -119,7 +122,7 @@ class Univers:
             if end == False and len(self.ball) <= 1:
                 self.sound.stopMusic()
                 #fin du jeu le joueur a perdu
-                return False
+                return DEFEAT
             elif end == False :
                 self.ball.remove(ball)
         #passage a l'affichage des différents éléments graphiques 
@@ -136,7 +139,7 @@ class Univers:
         if self.checkEnd() == True :
             self.sound.stopMusic()
             #si il n'y a plus aucune brique sur le terrain le niveau est fini
-            return True
+            return VICTORY
 
         #timer         
         self.update_timer()
@@ -150,9 +153,10 @@ class Univers:
         #rafraichissement de l'affichage 
         pygame.display.flip()
         self.execTime -= time.time()
+        return INLEVEL
 
     def update_timer(self):
-        self.lastTime = (time.time() - self.startupTime) 
+        self.lastTime = (time.time() - self.startupTime)    
         if int(self.lastTime) >= 1 :
                 self.startupTime += 1
                 self.counter += 1 

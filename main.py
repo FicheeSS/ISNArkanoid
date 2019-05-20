@@ -42,30 +42,30 @@ def waitingMessage(txt,p):
                 else:
                     return False
 def main():
-    gameOn = 1
-    while gameOn != 0 :
-        win = univers.animate()
-        #message pour l'utilisateur en fin de niveau ou de jeu win represente la victoire ou non du joueur 
-        if win  == False :
-            if waitingMessage('Vous avez perdu',True) == True:
-                gameOn = 0
+    while True :
+        gameState = univers.animate()
+        #message pour l'utilisateur en fin de niveau ou de jeu gameState represente la victoire ou non du joueur 
+        if gameState == VICTORY :
+            #Si le joueuer a fini le niveau on change le niveau
+            endgame = univers.levelChange()
+            if  endgame:
+                waitingMessage('Niveau suivant : Monde ' + str(univers.currentLvl),False)
+            else:
+                if waitingMessage('Bravo vous avez gagnez !',True) == True :
+                    return 0
+                else :
+                    pygame.quit()
+                    sys.exit(0)
+        elif gameState == DEFEAT :
+            if waitingMessage('Vous avez perdu',True) :
+                return 0
             else :
                 pygame.quit()
-                
-                
-        elif win == True :
-        #Si le joueuer a fin le niveau on change le niveau
-            endgame = univers.levelChange()
-            if  endgame == False:
-                waitingMessage('Bravo vous avez gagnez !',False)
-                pygame.quit()
                 sys.exit(0)
-            elif endgame == True:
-                waitingMessage('Niveau suivant : Monde ' + str(univers.currentLvl),False)
 
 
-while 0 != 1:
-    univers.__init__()
+while True:
+    univers.init()
     main()
     
 
