@@ -51,17 +51,15 @@ class Ball:
         if (acteur.__class__.__name__ == "Brick") :
             if colisionBrick(acteur.getPos(),(self.x,self.y),self.radius) == True :
                 # on demande a la Brick en question de disparaitre
-                brick = acteur.explode(univer)  
+                brick = acteur.explode(univer) 
+                self.bounceHor()
+                self.sound.playBounce() 
                 if brick == True :
                     if self.speed <= 1 :
                         self.speed += 0.05
-                    self.bounceHor()
-                    self.sound.playBounce()
                     return 20
 
                 else:
-                    self.bounceHor()
-                    self.sound.playBounce()
                     return brick
                     
             else :
@@ -91,8 +89,7 @@ class Ball:
                 self.y -= 1
                 self.sound.playBounce()
                 self.bounceHor()
-        """else :
-            sys.exit("Unknow class "+ acteur.__class__.__name__)"""
+
 
 
 class Brick :

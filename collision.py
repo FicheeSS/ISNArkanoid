@@ -17,6 +17,7 @@ def colisionPalette(pal,pos,radius):
         return True
     else:
         return False
+        
 def colisionBrick(bpos,c,radius):
     if c[0]+radius >= bpos[0] and c[0]+radius <= bpos[0]+WCASE :
         if c[1]+radius >= bpos[1] and c[1]+radius <= bpos[1]+HCASE:

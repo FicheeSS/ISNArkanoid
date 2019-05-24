@@ -12,7 +12,6 @@ class Univers:
         pygame.init()
         self.screen = pygame.display.set_mode(effectiveSize)
         self.waitingMessage()
-        self.execTime = 0
         #Création des conteurs
         self.score = 0
         self.currentLvl = 0
@@ -111,7 +110,7 @@ class Univers:
                 #on verifie que la balle est en colision avec un des blocs
             for x in range(NBRICKSX) :
                 for y in range(NBRICKSY) :
-                    if self.bricks[x][y].isVisible() == True:
+                    if self.bricks[x][y].isVisible():
                         self.score += ball.get_colision(self.bricks[x][y],self)
             #on verifie que la balle est en collision avec un des murs
             ball.get_colision(self.murhaut,self)
@@ -131,12 +130,12 @@ class Univers:
         self.palette.draw(self.screen)
         #fonction pour dessiner toutes les briques   
         self.drawBriques()
-        for i in range(len(self.ball)):
+        for ball in self.ball:
             #deplacement et dessins des balles 
-            self.ball[i].animate()
-            self.ball[i].draw(self.screen)
+            ball.animate()
+            ball.draw(self.screen)
 
-        if self.checkEnd() == True :
+        if self.checkEnd() :
             self.sound.stopMusic()
             #si il n'y a plus aucune brique sur le terrain le niveau est fini
             return VICTORY
@@ -152,7 +151,6 @@ class Univers:
         self.textescore()
         #rafraichissement de l'affichage 
         pygame.display.flip()
-        self.execTime -= time.time()
         return INLEVEL
 
     def update_timer(self):
@@ -166,7 +164,6 @@ class Univers:
         for x in range(NBRICKSX) :
             for y in range(NBRICKSY) :
                 self.bricks[x][y].draw(self.screen) 
-    
     def add_ball(self,pos):
         #ne marche pas encore 
         print("add balle")
