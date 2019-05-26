@@ -10,6 +10,7 @@ class Univers:
 
     def init(self):
         pygame.init()
+        self.sound = Sound()
         self.screen = pygame.display.set_mode(effectiveSize)
         self.waitingMessage()
         #Création des conteurs
@@ -25,10 +26,10 @@ class Univers:
         #creation de la palette
         self.palette = Palette()
         #creation des murs
-        self.murdroit = Mur(((0,SCREENSIZE[1]),(SCREENSIZE[0],SCREENSIZE[1])),RIGHTWALL)
-        self.murgauche = Mur(((0,0),(0,SCREENSIZE[0])),LEFTWALL)
-        self.murhaut = Mur(((0,0),(0,SCREENSIZE[1])),TOPWALL)
-        self.murbas = Mur(((SCREENSIZE[0],0),(SCREENSIZE[0],SCREENSIZE[1])),BOTTOMWALL)
+        self.murdroit = Mur(((SCREENSIZE[0],0),(SCREENSIZE[0],SCREENSIZE[1])),RIGHTWALL)
+        self.murgauche = Mur(((0,0),(0,SCREENSIZE[1])),LEFTWALL)
+        self.murhaut = Mur(((0,0),(SCREENSIZE[0],0)),TOPWALL)
+        self.murbas = Mur(((0,SCREENSIZE[1]),(SCREENSIZE[0],SCREENSIZE[1])),BOTTOMWALL)
         #creation des briques dans un array 2D
         self.bricks = []
         self.sound = Sound()
@@ -105,19 +106,22 @@ class Univers:
         return True
 
     def animate(self):
+
         #verification des collisions pour chaques balles  
         for ball in self.ball:
-                #on verifie que la balle est en colision avec un des blocs
+            #on verifie que la balle est en colision avec un des blocs
             for x in range(NBRICKSX) :
                 for y in range(NBRICKSY) :
                     if self.bricks[x][y].isVisible():
                         self.score += ball.get_colision(self.bricks[x][y],self)
+
             #on verifie que la balle est en collision avec un des murs
             ball.get_colision(self.murhaut,self)
             ball.get_colision(self.murdroit,self)
             ball.get_colision(self.murgauche,self)
             ball.get_colision(self.palette,self)
             end = ball.get_colision(self.murbas,self)
+
             if end == False and len(self.ball) <= 1:
                 self.sound.stopMusic()
                 #fin du jeu le joueur a perdu
@@ -144,10 +148,12 @@ class Univers:
         self.update_timer()
         #affichage du niveau actuel
         self.texteLvl()
-        #en test 
-        if len(self.newObject) > 0:
-            self.ball.append(self.newObject[0])
-            self.newObject = []
+
+        #Ajout des balles nouvellement créées 
+        for objet in self.newObject :
+            self.ball.append(objet)
+        self.newObject[:] = []
+
         self.textescore()
         #rafraichissement de l'affichage 
         pygame.display.flip()

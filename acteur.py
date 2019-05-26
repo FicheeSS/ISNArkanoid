@@ -7,16 +7,18 @@ from collision import *
 from couleur import *
 from univer import *
 
+ballPict = pygame.image.fromstring(pygame.image.tostring(pygame.image.load("ball.bmp"),"RGBX"),(BALLSIZE,BALLSIZE),"RGBX")
+
 class Ball:
     def __init__(self,pos):
         #réglage des paramètres de balle : vitesse, rebond
-        self.img = pygame.image.fromstring(pygame.image.tostring(pygame.image.load("ball.bmp"),"RGBX"),(BALLSIZE,BALLSIZE),"RGBX")
+        self.img = ballPict
         self.radius = RADIUS
         self.x = pos[0]
         self.y = pos[1]
         self.angle = (300 * math.pi) / 180
         self.speed = 1
-        self.sound = Sound()
+        
 
     def addSpeed(self,add):
        self.speed+= add
@@ -50,38 +52,51 @@ class Ball:
     def get_colision(self,acteur,univer):
         #pour chaque acteur on effectue la recherche de la colision 
         if (acteur.__class__.__name__ == "Brick") :
-            if colisionBrick(acteur.getPos(),(self.x,self.y),self.radius) == True :
+            """if colisionBrick(acteur.getPos(),(self.x,self.y),self.radius) == True :
                 # on demande a la Brick en question de disparaitre
+                self.y += 1
                 brick = acteur.explode(univer) 
                 self.bounceHor()
                 self.sound.playBounce() 
                 return brick
             else :
+                return 0"""
+            col = ncolisionBrick((self.x,self.y),self.radius,acteur)
+            if col != NOWALL:
+                if col == LEFTWALL or col == RIGHTWALL:
+                    self.bounceVert()
+                else : 
+                    self.bounceHor()
+                brick = acteur.explode(univer) 
+                univer.sound.playBounce()
+                return brick
+            else:
                 return 0
 
         if (acteur.__class__.__name__ == "Mur") :
-            if colisionWall((self.x,self.y),self.radius) == RIGHTWALL:
-                self.x -= 1
-                self.bounceVert()
-                self.sound.playBounce()
-                return True
-            elif colisionWall((self.x,self.y),self.radius) == LEFTWALL:
-                self.x += 1
-                self.bounceVert()
-                self.sound.playBounce()
-                return True
-            elif colisionWall((self.x,self.y),self.radius) == TOPWALL:
-                self.y += 1 
-                self.bounceHor()
-                self.sound.playBounce()
-                return True
-            elif colisionWall((self.x,self.y),self.radius) == BOTTOMWALL:
-                return False
+            if collisionWALL((self.x,self.y),self.radius,acteur) != 0:
+                if acteur.get_type() == RIGHTWALL :
+                    self.x -= 1
+                    self.bounceVert()
+                    univer.sound.playBounce()
+                    return True
+                elif acteur.get_type() == LEFTWALL :
+                    self.x += 1
+                    self.bounceVert()
+                    univer.sound.playBounce()
+                    return True
+                elif acteur.get_type() == TOPWALL:
+                    self.y += 1 
+                    self.bounceHor()
+                    univer.sound.playBounce()
+                    return True
+                elif acteur.get_type() == BOTTOMWALL:
+                    return False
         if (acteur.__class__.__name__ == "Palette"):
             if colisionPalette(acteur.getPos(),(self.x,self.y),self.radius) == True :
                 self.y -= 1
                 self.sound.playBounce()
-                self.bounceHor()
+                univer.bounceHor()
 
 
 
@@ -96,6 +111,14 @@ class Brick :
             self.visible = True
         else:
             self.visible = False
+
+        self.walls = [
+            Mur(((x,y),(x,y+HCASE)),LEFTWALL),
+            Mur(((x+WCASE,y),(x+WCASE,y+HCASE)),RIGHTWALL),
+            Mur(((x,y+HCASE),(x+WCASE,y+HCASE)),BOTTOMWALL),
+            Mur(((x,y),(x+WCASE,y)),TOPWALL)
+            ]
+
         #création des images de couleur dependante de state 
         if self.visible != 0 :
             for x in range(BRICKSIZE[0]):
@@ -130,7 +153,8 @@ class Brick :
         if n == 7:
             return mediumvioletred
 
-
+    def getWalls(self):
+        return self.walls
     def getPos(self):
         #envoie un tuple de la postion en x et y 
         return(self.x,self.y)
@@ -145,7 +169,7 @@ class Brick :
                     self.img.set_at((x,y),self.stateToColor())
         
 
-    def explode (self,univer):
+    def explode (self,univers):
         # on effectue les actions correspondantes a l'état de la brick 
         if self.state == 1 :
             self.visible = False
@@ -158,11 +182,11 @@ class Brick :
             self.changeColor(2)
             return 5
         elif self.state == 4:
-            univer.add_speed()
+            univers.add_speed()
             self.visible = False
             return 20            
         elif self.state == 5 : 
-            univer.add_ball((self.x,self.y))
+            univers.add_ball((self.x,self.y))
             self.visible = False
             return 20
         else :
@@ -196,6 +220,7 @@ class Mur:
     # utilisé pour savoir avec quel mur on a la colision
     def get_extremite(self):
         return self.extremites
+
     def get_type(self):
         return self.type
         
