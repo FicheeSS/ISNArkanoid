@@ -12,7 +12,6 @@ def colisionWall(pos,radius):
         return TOPWALL 
     
 def colisionPalette(pal,pos,radius):
-    #print("palx = " + str(pal[0]) + " paly = " + str(pal[1])+" posx = " + str(pos[0]) + " posy = " + str(pos[1]) )
     if pal[0] <= pos[0]+radius  and pal[0]+PALETTEWIDTH >= pos[0]+radius and pal[1] <= pos[1]+radius+1:
         return True
     else:

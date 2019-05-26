@@ -159,14 +159,18 @@ class Univers:
                 self.startupTime += 1
                 self.counter += 1 
         self.texteTemp()
+
+    def add_speed(self):
+        for ball in self.ball : 
+            ball.addSpeed(0.05)
+            
     def drawBriques(self):
         #fonction de dessins de toutes les briques sur le terrain  
         for x in range(NBRICKSX) :
             for y in range(NBRICKSY) :
                 self.bricks[x][y].draw(self.screen) 
+
     def add_ball(self,pos):
-        #ne marche pas encore 
-        print("add balle")
         self.newObject.append(Ball(pos))
 
     def levelChange(self):

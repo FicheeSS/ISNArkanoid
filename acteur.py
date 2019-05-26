@@ -18,7 +18,8 @@ class Ball:
         self.speed = 1
         self.sound = Sound()
 
-        
+    def addSpeed(self,add):
+       self.speed+= add
          
     def draw (self , screen):
         # dessin de la balle
@@ -54,14 +55,7 @@ class Ball:
                 brick = acteur.explode(univer) 
                 self.bounceHor()
                 self.sound.playBounce() 
-                if brick == True :
-                    if self.speed <= 1 :
-                        self.speed += 0.05
-                    return 20
-
-                else:
-                    return brick
-                    
+                return brick
             else :
                 return 0
 
@@ -85,7 +79,6 @@ class Ball:
                 return False
         if (acteur.__class__.__name__ == "Palette"):
             if colisionPalette(acteur.getPos(),(self.x,self.y),self.radius) == True :
-                print("palette ")
                 self.y -= 1
                 self.sound.playBounce()
                 self.bounceHor()
@@ -165,8 +158,9 @@ class Brick :
             self.changeColor(2)
             return 5
         elif self.state == 4:
+            univer.add_speed()
             self.visible = False
-            return True            
+            return 20            
         elif self.state == 5 : 
             univer.add_ball((self.x,self.y))
             self.visible = False
@@ -219,29 +213,20 @@ class Palette:
         screen.blit(self.img, (int(self.x),int(self.y)))
 
     def animate(self):
-        # fonction permettant de déplacer la palette avec un etat memoire pour permettre de faire un mouvement continuel
         pygame.event.pump()
         for event in pygame.event.get():
             if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_RIGHT and event.key == pygame.K_LEFT:
-                    self.lastKey = 0
                 if event.key == pygame.K_RIGHT:
                     self.lastKey = r_KEY
-                    if self.x + self.width < SCREENSIZE[0]:
-                        self.x += self.mvtdelta
                 if event.key == pygame.K_LEFT:
                     self.lastKey = l_KEY
-                    if self.x > 0 :
-                        self.x -= self.mvtdelta
             if event.type == pygame.KEYUP:
                 if event.key == pygame.K_RIGHT or event.key == pygame.K_LEFT:
                     self.lastKey = 0 
-        if self.lastKey == l_KEY :
-            if self.x > 0 :
-                self.x -= self.mvtdelta
-        elif self.lastKey == r_KEY:
-            if self.x + self.width < SCREENSIZE[0]:
-                self.x += self.mvtdelta
+        if self.lastKey == l_KEY and self.x > 0:
+            self.x -= self.mvtdelta
+        elif self.lastKey == r_KEY and self.x + self.width < SCREENSIZE[0]:
+            self.x += self.mvtdelta
 
     def getPos(self):
         # colision 
