@@ -95,8 +95,8 @@ class Ball:
         if (acteur.__class__.__name__ == "Palette"):
             if colisionPalette(acteur.getPos(),(self.x,self.y),self.radius) == True :
                 self.y -= 1
-                self.sound.playBounce()
-                univer.bounceHor()
+                univer.sound.playBounce()
+                self.bounceHor()
 
 
 
