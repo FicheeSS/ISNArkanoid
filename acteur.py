@@ -21,7 +21,8 @@ class Ball:
         
 
     def addSpeed(self,add):
-       self.speed+= add
+        if self.speed <= 1:
+            self.speed+= add
          
     def draw (self , screen):
         # dessin de la balle
